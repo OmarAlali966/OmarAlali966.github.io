@@ -390,3 +390,46 @@
    // Expose for pages that need direct access (e.g. contact form handlers)
    window.Portfolio = { qs, qsa, escapeHtml };
 })();
+
+/* ---------- Contact links (self-contained, data-driven) ---------- */
+(function () {
+     "use strict";
+     function renderContactLinks(selector) {
+            var container = document.querySelector(selector);
+            if (!container || typeof SITE_CONFIG === "undefined") return;
+            var s = SITE_CONFIG.social;
+            var cards = [
+               {
+                          label: "GitHub",
+                          value: s.github,
+                          href: s.github,
+                          icon: "&#128187;",
+                          placeholder: false
+               },
+               {
+                          label: "LinkedIn",
+                          value: s.linkedinIsPlaceholder ? "Coming soon \u2014 will be added shortly" : s.linkedin,
+                          href: s.linkedinIsPlaceholder ? "#" : s.linkedin,
+                          icon: "&#128100;",
+                          placeholder: s.linkedinIsPlaceholder
+               },
+               {
+                          label: "Email",
+                          value: s.emailIsPlaceholder ? "Coming soon \u2014 will be added shortly" : s.email,
+                          href: s.emailIsPlaceholder ? "#" : ("mailto:" + s.email),
+                          icon: "&#9993;",
+                          placeholder: s.emailIsPlaceholder
+               }
+                   ];
+            container.innerHTML = cards.map(function (c) {
+                     return (
+                                '<a class="contact-card reveal" href="' + c.href + '"' +
+                                (c.label !== "GitHub" ? ' target="_blank" rel="noopener"' : ' target="_blank" rel="noopener"') +
+                                '><div class="contact-icon">' + c.icon + '</div><div><h4>' + c.label + '</h4><span>' + c.value + '</span></div></a>'
+                              );
+            }).join("");
+     }
+     document.addEventListener("DOMContentLoaded", function () {
+            renderContactLinks("#contactCards");
+     });
+})();
