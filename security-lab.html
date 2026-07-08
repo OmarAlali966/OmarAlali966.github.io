@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Lab | Omar Alali</title>
+<meta name="description" content="Omar Alali's cloud security lab: AWS architecture, IAM, CloudTrail, GuardDuty, Security Hub, AWS Config, CloudWatch, Terraform, and incident response.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="network-canvas"></canvas>
+
+<nav class="navbar">
+<div class="container">
+<a href="index.html" class="brand"><span class="brand-mark">OA</span>Omar Alali</a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="journey.html">Journey</a>
+<a href="projects.html">Projects</a>
+<a href="security-lab.html">Security Lab</a>
+<a href="learning-platforms.html">Learning</a>
+<a href="certifications.html">Certifications</a>
+<a href="skills.html">Skills</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="resume.html">Resume</a>
+<a href="contact.html" class="nav-cta">Contact</a>
+</div>
+<button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+</div>
+</nav>
+<div class="mobile-menu">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="journey.html">Journey</a>
+<a href="projects.html">Projects</a>
+<a href="security-lab.html">Security Lab</a>
+<a href="learning-platforms.html">Learning Platforms</a>
+<a href="certifications.html">Certifications</a>
+<a href="skills.html">Skills</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="resume.html">Resume</a>
+<a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<section class="page-hero">
+<div class="container">
+<span class="kicker reveal">Security Lab</span>
+<h1 class="reveal">Where cloud security gets hands-on.</h1>
+<p class="reveal">A live look at the AWS Enterprise Security Monitoring Platform &mdash; architecture, detection services, incident response, and everything I'm learning building it.</p>
+</div>
+</section>
+
+<section class="section" style="padding-top:10px;">
+<div class="container">
+<div class="grid grid-4" id="labDashboardGrid"></div>
+</div>
+</section>
+
+<section class="section section-alt">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Architecture</span>
+<h2>AWS Architecture Overview</h2>
+<p>Layered from identity outward: IAM foundations, an encrypted audit trail, automated detection, and real-time alerting.</p>
+</div>
+<div class="diagram-frame reveal">Architecture diagram &mdash; coming soon (will be added once the full environment is deployed)</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Core Services</span>
+<h2>What's Running In This Lab</h2>
+</div>
+<div class="grid grid-2">
+<div class="lab-panel reveal">
+<h3>&#128272; Identity &amp; Infrastructure</h3>
+<div class="lab-service"><span class="name">AWS IAM</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">Terraform (IaC)</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">KMS Encryption</span><span class="badge">Active</span></div>
+</div>
+<div class="lab-panel reveal">
+<h3>&#128220; Audit &amp; Logging</h3>
+<div class="lab-service"><span class="name">CloudTrail</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">CloudWatch Logs</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">SNS Alerting</span><span class="badge">Active</span></div>
+</div>
+<div class="lab-panel reveal">
+<h3>&#128225; Detection &amp; Compliance</h3>
+<div class="lab-service"><span class="name">GuardDuty</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">Security Hub</span><span class="badge">Active</span></div>
+<div class="lab-service"><span class="name">AWS Config</span><span class="badge">Active</span></div>
+</div>
+<div class="lab-panel reveal">
+<h3>&#128737; Incident Response</h3>
+<div class="lab-service"><span class="name">Response Playbooks</span><span class="badge">In Progress</span></div>
+<div class="lab-service"><span class="name">Detection Scenarios</span><span class="badge">In Progress</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section section-alt">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Incident Reports</span>
+<h2>Simulated Incidents</h2>
+<p>Write-ups will appear here as attack simulations are run against the lab environment.</p>
+</div>
+<div class="grid grid-3">
+<div class="future-card reveal">
+<span class="status-pill status-planned">Coming Soon</span>
+<h4 class="mt-16">Unauthorized API Call Simulation</h4>
+<p>Detection and response walkthrough &mdash; coming soon.</p>
+</div>
+<div class="future-card reveal">
+<span class="status-pill status-planned">Coming Soon</span>
+<h4 class="mt-16">IAM Policy Misconfiguration</h4>
+<p>Detection and response walkthrough &mdash; coming soon.</p>
+</div>
+<div class="future-card reveal">
+<span class="status-pill status-planned">Coming Soon</span>
+<h4 class="mt-16">Root Account Usage Alert</h4>
+<p>Detection and response walkthrough &mdash; coming soon.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Gallery</span>
+<h2>Screenshots</h2>
+<p>Placeholder frames for now &mdash; real AWS console screenshots will replace these after deployment.</p>
+</div>
+<div class="grid grid-2">
+<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">GuardDuty findings dashboard</span></div>
+<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">Security Hub compliance overview</span></div>
+<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">CloudWatch alarms &amp; SNS alerting</span></div>
+<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">CloudTrail encrypted log storage</span></div>
+</div>
+</div>
+</section>
+
+<section class="section text-center section-alt">
+<div class="container">
+<div class="btn-row reveal" style="justify-content:center;">
+<a class="btn btn-primary" href="project-aws-security.html">Read Full Case Study</a>
+<a class="btn btn-secondary" href="https://github.com/OmarAlali966/aws-enterprise-security-monitoring-platform" target="_blank" rel="noopener">View on GitHub</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+<div class="footer-links">
+<a href="https://github.com/OmarAlali966" target="_blank" rel="noopener">GitHub</a>
+<a href="projects.html">Projects</a>
+<a href="certifications.html">Certifications</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="contact.html">Contact</a>
+</div>
+<div>&copy; 2026 Omar Alali &mdash; Built with intention. Always evolving.</div>
+</div>
+</footer>
+
+<script src="js/data/config.js"></script>
+<script src="js/data/certifications.js"></script>
+<script src="js/data/timeline.js"></script>
+<script src="js/data/projects.js"></script>
+<script src="js/data/skills.js"></script>
+<script src="js/data/learning-platforms.js"></script>
+<script src="js/data/roadmap.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
