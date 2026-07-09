@@ -468,7 +468,7 @@
                    '<div class="timeline-item type-' + (item.status === "done" ? "cert" : item.status === "in-progress" ? "project" : "future") + ' reveal">' +
                      '<div class="timeline-dot">' +
                      '</div>' +
-                     '<div class="timeline-date">' + escapeHtml(roadmapIcon(item.status)) + ' &nbsp;' + escapeHtml(item.category.toUpperCase()) + '</div>' +
+                     '<div class="timeline-date">' + roadmapIcon(item.status) + ' &nbsp;' + escapeHtml(item.category.toUpperCase()) + '</div>' +
                      '<h3>' + escapeHtml(item.title) + '</h3>' +
                      dateHtml +
                    '</div>'
