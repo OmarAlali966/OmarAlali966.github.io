@@ -356,7 +356,7 @@
                      '<div class="card reveal"><h3>Overview</h3><p class="mt-16">' + escapeHtml(p.overview) + '</p></div>' +
                      '<div class="card reveal"><h3>Architecture</h3><p class="mt-16">' + escapeHtml(p.architecture) + '</p></div>' +
                    '</div>' +
-                   '<div class="card reveal mt-24"><h3>Technologies Used</h3><div class="project-tech mt-16">' +
+                   '<div class="section-head left mt-40"><span class="kicker">Architecture</span><h2>Architecture Diagram</h2></div>' + '<div class="project-media reveal" style="border-radius:18px;aspect-ratio:16/7;"><div class="grid-lines"></div><span class="media-label">Architecture diagram \u2014 coming soon</span></div>' + '<div class="card reveal mt-24"><h3>Technologies Used</h3><div class="project-tech mt-16">' +
                      p.technologies.map((t) => '<span class="tag">' + escapeHtml(t) + '</span>').join("") +
                    '</div></div>' +
                    '<div class="section-head left mt-40"><span class="kicker">Gallery</span><h2>Screenshots</h2></div>' +
