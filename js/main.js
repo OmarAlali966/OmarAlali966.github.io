@@ -391,66 +391,129 @@
                                               ).join("");
    }
 
-   /* ---------- Learning Platforms ---------- */
+/* ---------- Learning Platforms ---------- */
+   function progressBarHtml(pct) {
+      var v = Math.max(0, Math.min(100, pct || 0));
+      return '<div class="progress-track"><div class="progress-fill" style="width:' + v + '%;"></div></div><span class="progress-pct">' + v + '%</span>';
+   }
+
+   function pathStatusBadge(status) {
+      if (status === "completed") return '<span class="status-badge status-completed">&#10003; Completed</span>';
+      if (status === "in-progress") return '<span class="status-badge status-inprogress">In Progress</span>';
+      return '<span class="status-badge status-learning">Currently Learning</span>';
+   }
+
+   function learningPathCardHtml(path) {
+      var whatLearnedHtml = (path.status === "completed" && path.whatLearned && path.whatLearned.length)
+      ? '<div class="what-learned mt-16"><h5>What I Learned</h5><ul>' +
+         path.whatLearned.map((w) => '<li>' + escapeHtml(w) + '</li>').join("") +
+         '</ul></div>'
+         : '';
+      return (
+         '<div class="path-card reveal">' +
+         '<div class="path-card-head">' +
+         '<h4>' + escapeHtml(path.title) + '</h4>' +
+         pathStatusBadge(path.status) +
+         '</div>' +
+         '<div class="path-meta mt-16"><span class="difficulty-tag">' + escapeHtml(path.difficulty || "Difficulty coming soon") + '</span></div>' +
+         '<p class="path-desc mt-16">' + escapeHtml(path.summary || "") + '</p>' +
+         '<div class="progress-row mt-16">' + progressBarHtml(path.progress) + '</div>' +
+         whatLearnedHtml +
+         '</div>'
+         );
+   }
+
+   function pathSectionHtml(title, paths) {
+      if (!paths || !paths.length) return "";
+      return (
+         '<div class="section-head left mt-40"><span class="kicker">Hands-on Progress</span><h2>' + title + '</h2></div>' +
+         '<div class="grid grid-3">' + paths.map(learningPathCardHtml).join("") + '</div>'
+         );
+   }
+
+   function certificatesBlockHtml(certs) {
+      if (!certs || !certs.length) {
+         return '<div class="card reveal mt-24"><h3>Certificates</h3><p class="mt-16" style="color:var(--text-muted);">Add certificates as you earn them.</p></div>';
+      }
+      return (
+         '<div class="card reveal mt-24"><h3>Certificates</h3><div class="btn-row mt-16">' +
+         certs.map((c) => '<a class="btn btn-secondary" href="' + escapeHtml(c.url) + '" target="_blank" rel="noopener">' + escapeHtml(c.title) + '</a>').join("") +
+         '</div></div>'
+         );
+   }
+
+   function platformStatsLabel(p) {
+      var completed = (p.completedPaths || []).length;
+      var inProgress = (p.inProgressPaths || []).length;
+      var learning = (p.currentlyLearning || []).length;
+      var parts = [];
+      if (completed) parts.push(completed + (completed === 1 ? " Path Completed" : " Paths Completed"));
+      if (inProgress) parts.push(inProgress + " In Progress");
+      if (learning) parts.push(learning + " Currently Learning");
+      return parts.length ? parts.join(" \u00b7 ") : "New platform \u2014 paths coming soon";
+   }
+
    function learningPlatformCardHtml(p) {
-          return (
-                   '<div class="card reveal">' +
-                     '<div class="cert-top">' +
-                       '<div class="cert-logo">' + escapeHtml(p.logo) + '</div>' +
-                       '<div><div class="cert-title">' + escapeHtml(p.name) + '</div></div>' +
-                     '</div>' +
-                     '<p class="mt-16" style="color:var(--text-muted);font-size:14.5px;">' + escapeHtml(p.description) + '</p>' +
-                     '<div class="mt-16" style="font-size:13px;color:var(--text-faint);">' + escapeHtml(p.progress) + '</div>' +
-                     '<div class="btn-row mt-24">' +
-                       '<a class="btn btn-secondary" href="learning-platform.html?id=' + encodeURIComponent(p.id) + '">View Details</a>' +
-                       '<a class="btn btn-ghost" href="' + escapeHtml(p.profileUrl) + '" target="_blank" rel="noopener">Visit Profile</a>' +
-                     '</div>' +
-                   '</div>'
-                 );
+      return (
+         '<div class="card reveal">' +
+         '<div class="cert-top">' +
+         '<div class="cert-logo">' + escapeHtml(p.logo) + '</div>' +
+         '<div><div class="cert-title">' + escapeHtml(p.name) + '</div></div>' +
+         '</div>' +
+         '<p class="mt-16" style="color:var(--text-muted);font-size:14.5px;">' + escapeHtml(p.description) + '</p>' +
+         '<div class="mt-16" style="font-size:13px;color:var(--text-faint);">' + escapeHtml(platformStatsLabel(p)) + '</div>' +
+         '<div class="btn-row mt-24">' +
+         '<a class="btn btn-secondary" href="learning-platform.html?id=' + encodeURIComponent(p.id) + '">View Details</a>' +
+         '<a class="btn btn-ghost" href="' + escapeHtml(p.profileUrl) + '" target="_blank" rel="noopener">Visit Profile</a>' +
+         '</div>' +
+         '</div>'
+         );
    }
 
    function renderLearningPlatforms(selector) {
-          const container = qs(selector);
-          if (!container || typeof LEARNING_PLATFORMS === "undefined") return;
-          container.innerHTML = LEARNING_PLATFORMS.map(learningPlatformCardHtml).join("");
+      const container = qs(selector);
+      if (!container || typeof LEARNING_PLATFORMS === "undefined") return;
+      container.innerHTML = LEARNING_PLATFORMS.map(learningPlatformCardHtml).join("");
    }
 
    function renderLearningPlatformDetail(selector) {
-          const container = qs(selector);
-          if (!container || typeof LEARNING_PLATFORMS === "undefined") return;
-          const params = new URLSearchParams(window.location.search);
-          const id = params.get("id") || (LEARNING_PLATFORMS[0] && LEARNING_PLATFORMS[0].id);
-          const p = LEARNING_PLATFORMS.find((pl) => pl.id === id) || LEARNING_PLATFORMS[0];
-          if (!p) return;
-          document.title = p.name + " | Omar Alali";
-          container.innerHTML =
-                   '<div class="reveal">' +
-                     '<span class="kicker">Learning Platform</span>' +
-                     '<div class="cert-top" style="margin-top:14px;">' +
-                       '<div class="cert-logo" style="width:64px;height:64px;font-size:15px;">' + escapeHtml(p.logo) + '</div>' +
-                       '<h1 style="font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-1px;">' + escapeHtml(p.name) + '</h1>' +
-                     '</div>' +
-                     '<p style="margin-top:14px;color:var(--text-muted);font-size:17px;max-width:700px;">' + escapeHtml(p.description) + '</p>' +
-                     '<div class="btn-row mt-24">' +
-                       '<a class="btn btn-primary" href="' + escapeHtml(p.profileUrl) + '" target="_blank" rel="noopener">Visit Profile</a>' +
-                       '<a class="btn btn-secondary" href="learning-platforms.html">All Platforms</a>' +
-                     '</div>' +
-                   '</div>' +
-                   '<div class="card reveal mt-40"><h3>Current Progress</h3><p class="mt-16">' + escapeHtml(p.progress) + '</p></div>' +
-                   listBlock("Badges", p.badges) +
-                   listBlock("Certificates", p.certificates) +
-                   listBlock("Learning Paths", p.learningPaths) +
-                   '<div class="section-head left mt-40"><span class="kicker">Gallery</span><h2>Screenshots</h2></div>' +
-                   '<div class="grid grid-2">' +
-                     p.screenshots.map((s) =>
-                                  '<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">' + escapeHtml(s.caption) + '</span></div>'
-                                               ).join("") +
-                   '</div>' +
-                   listBlock("What I Learned", p.whatLearned) +
-                   '<div class="card reveal mt-24"><h3>Skills Gained</h3><div class="project-tech mt-16">' +
-                     p.skillsGained.map((t) => '<span class="tag">' + escapeHtml(t) + '</span>').join("") +
-                   '</div></div>' +
-                   '<div class="card reveal mt-24"><h3>Notes</h3><p class="mt-16">' + escapeHtml(p.notes || "") + '</p></div>';
+      const container = qs(selector);
+      if (!container || typeof LEARNING_PLATFORMS === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id") || (LEARNING_PLATFORMS[0] && LEARNING_PLATFORMS[0].id);
+      const p = LEARNING_PLATFORMS.find((pl) => pl.id === id) || LEARNING_PLATFORMS[0];
+      if (!p) return;
+      document.title = p.name + " | Omar Alali";
+      const hasAnyPaths = (p.completedPaths && p.completedPaths.length) || (p.inProgressPaths && p.inProgressPaths.length) || (p.currentlyLearning && p.currentlyLearning.length);
+      container.innerHTML =
+         '<div class="reveal">' +
+         '<span class="kicker">Hands-on Lab</span>' +
+         '<div class="cert-top" style="margin-top:14px;">' +
+         '<div class="cert-logo" style="width:64px;height:64px;font-size:15px;">' + escapeHtml(p.logo) + '</div>' +
+         '<h1 style="font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-1px;">' + escapeHtml(p.name) + '</h1>' +
+         '</div>' +
+         '<p style="margin-top:14px;color:var(--text-muted);font-size:17px;max-width:700px;">' + escapeHtml(p.description) + '</p>' +
+         '<div class="btn-row mt-24">' +
+         '<a class="btn btn-primary" href="' + escapeHtml(p.profileUrl) + '" target="_blank" rel="noopener">Visit My ' + escapeHtml(p.name) + ' Profile</a>' +
+         '<a class="btn btn-secondary" href="learning-platforms.html">All Platforms</a>' +
+         '</div>' +
+         '</div>' +
+         '<div class="card reveal mt-40"><h3>Progress Overview</h3><p class="mt-16">' + escapeHtml(platformStatsLabel(p)) + '</p></div>' +
+         (hasAnyPaths ? "" : '<div class="card reveal mt-24"><p style="color:var(--text-muted);">Learning paths for this platform are coming soon.</p></div>') +
+         pathSectionHtml("Completed Learning Paths", p.completedPaths) +
+         pathSectionHtml("In Progress", p.inProgressPaths) +
+         pathSectionHtml("Currently Learning", p.currentlyLearning) +
+         certificatesBlockHtml(p.certificates) +
+         '<div class="section-head left mt-40"><span class="kicker">Gallery</span><h2>Screenshots</h2></div>' +
+         '<div class="grid grid-2">' +
+         (p.screenshots || []).map((s) =>
+            '<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">' + escapeHtml(s.caption) + '</span></div>'
+            ).join("") +
+         '</div>' +
+         '<div class="card reveal mt-24"><h3>Skills Gained</h3><div class="project-tech mt-16">' +
+         (p.skillsGained || []).map((t) => '<span class="tag">' + escapeHtml(t) + '</span>').join("") +
+         '</div></div>' +
+         '<div class="card reveal mt-24"><h3>Notes</h3><p class="mt-16">' + escapeHtml(p.notes || "") + '</p></div>';
    }
 
    /* ---------- Roadmap ---------- */
