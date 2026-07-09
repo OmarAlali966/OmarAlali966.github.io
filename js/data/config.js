@@ -31,8 +31,8 @@ const SITE_CONFIG = {
 
     social: {
           github: "https://github.com/OmarAlali966",
-          linkedin: "#", // TODO: Add your LinkedIn URL here
-          linkedinIsPlaceholder: true,
+          linkedin: "https://linkedin.com/in/omar-alali-93034b321",
+          linkedinIsPlaceholder: false,
           email: "your.email@example.com", // TODO: Update with your real email
           emailIsPlaceholder: true
     },
