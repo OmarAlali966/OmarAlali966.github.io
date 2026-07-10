@@ -569,6 +569,7 @@
                    qsa("[data-resume-link]").forEach((btn) => {
                               btn.setAttribute("href", SITE_CONFIG.resume.fileUrl);
                    });
+               qsa(".resume-note").forEach((note) => { note.hidden = true; });
           }
    }
 
