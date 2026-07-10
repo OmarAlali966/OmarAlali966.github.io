@@ -20,7 +20,7 @@ const CERTIFICATIONS = [
           issueDate: "Add issue date",
           expirationDate: "Add expiration date",
           credentialId: "Add credential ID",
-          verifyUrl: https:"//cp.certmetrics.com/comptia/en/public/verify/credential/3f6498f9a966470e94f51dfc9090eaa7",
+          verifyUrl: "https://cp.certmetrics.com/comptia/en/public/verify/credential/3f6498f9a966470e94f51dfc9090eaa7",
           officialUrl: "https://www.comptia.org/certifications/security",
           isPlaceholderDetails: true,
           skills: ["Threat Management", "Cryptography", "Identity Management", "Risk Mitigation", "Network Security"],
