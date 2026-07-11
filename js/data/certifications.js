@@ -59,7 +59,7 @@ const CERTIFICATIONS = [
           credentialId: "9B56CB12D1514ED3",
           verifyUrl: "https://learn.microsoft.com/en-us/users/omaralali-6964/credentials/9b56cb12d1514ed3?ref=https%3A%2F%2Fwww.linkedin.com%2F",
           officialUrl: "https://learn.microsoft.com/credentials/certifications/security-operations-analyst/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Microsoft Sentinel", "Microsoft Defender", "KQL", "Threat Hunting", "SOC Analysis"],
           whatLearned: ["Configuring and using Microsoft Sentinel for detection", "Writing KQL queries to hunt for threats", "Investigating and remediating incidents with Microsoft Defender"],
           howApplied: "Add a short note on how you've used this in labs or projects.",
