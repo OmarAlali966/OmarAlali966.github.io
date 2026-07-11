@@ -24,9 +24,7 @@ const CERTIFICATIONS = [
           officialUrl: "https://www.comptia.org/certifications/security",
           isPlaceholderDetails: false,
           skills: ["Threat Management", "Cryptography", "Identity Management", "Risk Mitigation", "Network Security"],
-          whatLearned: ["Core security principles across risk, cryptography, and identity", "How to assess and mitigate common threats and vulnerabilities", "Foundational network and operational security controls"],
-          howApplied: "Add a short note on how you've used this in labs or projects.",
-          notes: "Add any personal notes about this certification."
+          whatLearned: ["Core security principles across risk, cryptography, and identity", "How to assess and mitigate common threats and vulnerabilities", "Foundational network and operational security controls"],"
    },
    {
           id: "cysa-plus",
