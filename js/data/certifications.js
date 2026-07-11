@@ -17,7 +17,7 @@ const CERTIFICATIONS = [
           logo: "S+",
           accent: "blue",
           status: "completed",
-          issueDate: "Add issue date",
+          issueDate: "July 2026",
           expirationDate: "Add expiration date",
           credentialId: "Add credential ID",
           verifyUrl: "https://cp.certmetrics.com/comptia/en/public/verify/credential/3f6498f9a966470e94f51dfc9090eaa7",
