@@ -29,13 +29,16 @@ const SITE_CONFIG = {
       location: "Miami, FL"
    },
 
-   social: {
-      github: "https://github.com/OmarAlali966",
-      linkedin: "https://linkedin.com/in/omar-alali-93034b321",
-      linkedinIsPlaceholder: false,
-      email: "your.email@example.com", // TODO: Update with your real email
-      emailIsPlaceholder: true
-   },
+  social: {
+    github: "https://github.com/OmarAlali966",
+    linkedin: "https://linkedin.com/in/omar-alali-93034b321",
+    linkedinIsPlaceholder: false,
+    phone: "(754) 259-9524",
+    phoneDial: "+17542595924",
+    phoneIsPlaceholder: false,
+    email: "omaradelalali@gmail.com",
+    emailIsPlaceholder: false
+  },
 
    resume: {
       // Set to true once you upload a real PDF at the path below.
