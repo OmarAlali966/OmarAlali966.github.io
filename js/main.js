@@ -614,7 +614,7 @@
             container.innerHTML = cards.map(function (c) {
                      var attrs = c.external ? ' target="_blank" rel="noopener noreferrer"' : "";
                      return (
-                                '<a class="contact-card reveal" href="' + c.href + '"' + attrs + '>' +
+                                '<a class="contact-card" href="' + c.href + '"' + attrs + '>' +
                                 '<div><h4>' + c.label + '</h4><span>' + c.value + '</span></div></a>'
                               );
             }).join("");
