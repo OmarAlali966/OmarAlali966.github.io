@@ -262,7 +262,7 @@
 
    /* ---------- Skills ---------- */
    const SKILL_ICONS = {
-          cloud: "\u2601", shield: "\u26E8", code: "\u2328", terminal: ">_", network: "\u29C9"
+          cloud: "", shield: "", code: "", terminal: ">_", network: "\u29C9"
    };
 
    function skillCardHtml(cat) {
