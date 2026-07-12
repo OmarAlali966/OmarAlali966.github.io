@@ -607,16 +607,17 @@
             if (!container || typeof SITE_CONFIG === "undefined") return;
             var s = SITE_CONFIG.social;
             var cards = [
-               { label: "Phone", value: s.phoneIsPlaceholder ? "Coming soon — will be added shortly" : s.phone, href: s.phoneIsPlaceholder ? "#" : ("tel:" + s.phoneDial), external: false },
-               { label: "Email", value: s.emailIsPlaceholder ? "Coming soon — will be added shortly" : s.email, href: s.emailIsPlaceholder ? "#" : ("mailto:" + s.email), external: false },
-               { label: "LinkedIn", value: s.linkedinIsPlaceholder ? "Coming soon — will be added shortly" : s.linkedin, href: s.linkedinIsPlaceholder ? "#" : s.linkedin, external: true }
-                   ];
-            container.innerHTML = cards.map(function (c) {
-                     var attrs = c.external ? ' target="_blank" rel="noopener noreferrer"' : "";
-                     return (
-                                '<a class="contact-card" href="' + c.href + '"' + attrs + '>' +
-                                '<div><h4>' + c.label + '</h4><span>' + c.value + '</span></div></a>'
-                              );
+               { label: "Phone", value: s.phoneIsPlaceholder ? "Coming soon — will be added shortly" : s.phone, href: s.phoneIsPlaceholder ? "#" : ("tel:" + s.phoneDial), external: false, cta: "Call Me" },
+               { label: "Email", value: s.emailIsPlaceholder ? "Coming soon — will be added shortly" : s.email, href: s.emailIsPlaceholder ? "#" : ("mailto:" + s.email), external: false, cta: "Send Email" },
+               { label: "LinkedIn", value: s.linkedinIsPlaceholder ? "Coming soon — will be added shortly" : s.linkedin, href: s.linkedinIsPlaceholder ? "#" : s.linkedin, external: true, cta: "View LinkedIn" }
+                       ];
+                container.innerHTML = cards.map(function (c) {
+                             var attrs = c.external ? ' target="_blank" rel="noopener noreferrer"' : "";
+                             return (
+                                            '<a class="contact-card" href="' + c.href + '"' + attrs + '>' +
+                                            '<div class="contact-card-body"><h4>' + c.label + '</h4><span class="contact-card-value">' + c.value + '</span></div>' +
+                                            '<span class="contact-card-cta">' + c.cta + '</span></a>'
+                                          );
             }).join("");
      }
      document.addEventListener("DOMContentLoaded", function () {
