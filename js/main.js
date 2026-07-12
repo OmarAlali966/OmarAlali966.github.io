@@ -599,7 +599,7 @@
    window.Portfolio = { qs, qsa, escapeHtml };
 })();
 
-/* ---------- Contact links (self-contained, data-driven) ---------- */
+/* ----------- Contact links (self-contained, data-driven) ----------- */
 (function () {
      "use strict";
      function renderContactLinks(selector) {
@@ -607,14 +607,15 @@
             if (!container || typeof SITE_CONFIG === "undefined") return;
             var s = SITE_CONFIG.social;
             var cards = [
-               { label: "GitHub", value: s.github, href: s.github, icon: "&#128187;" },
-               { label: "LinkedIn", value: s.linkedinIsPlaceholder ? "Coming soon \u2014 will be added shortly" : s.linkedin, href: s.linkedinIsPlaceholder ? "#" : s.linkedin, icon: "&#128100;" },
-               { label: "Email", value: s.emailIsPlaceholder ? "Coming soon \u2014 will be added shortly" : s.email, href: s.emailIsPlaceholder ? "#" : ("mailto:" + s.email), icon: "&#9993;" }
+               { label: "Phone", value: s.phoneIsPlaceholder ? "Coming soon — will be added shortly" : s.phone, href: s.phoneIsPlaceholder ? "#" : ("tel:" + s.phoneDial), external: false },
+               { label: "Email", value: s.emailIsPlaceholder ? "Coming soon — will be added shortly" : s.email, href: s.emailIsPlaceholder ? "#" : ("mailto:" + s.email), external: false },
+               { label: "LinkedIn", value: s.linkedinIsPlaceholder ? "Coming soon — will be added shortly" : s.linkedin, href: s.linkedinIsPlaceholder ? "#" : s.linkedin, external: true }
                    ];
             container.innerHTML = cards.map(function (c) {
+                     var attrs = c.external ? ' target="_blank" rel="noopener noreferrer"' : "";
                      return (
-                                '<a class="contact-card reveal" href="' + c.href + '" target="_blank" rel="noopener">' +
-                                '<div class="contact-icon">' + c.icon + '</div><div><h4>' + c.label + '</h4><span>' + c.value + '</span></div></a>'
+                                '<a class="contact-card reveal" href="' + c.href + '"' + attrs + '>' +
+                                '<div><h4>' + c.label + '</h4><span>' + c.value + '</span></div></a>'
                               );
             }).join("");
      }
