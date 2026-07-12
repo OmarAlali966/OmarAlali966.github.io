@@ -584,13 +584,12 @@
           renderSkills("#skillsGrid");
           renderFeaturedProjects("#featuredProjectsGrid");
           renderFutureProjects("#futureProjectsGrid");
-          renderDashboard("#dashboardGrid");
-          renderDashboard("#labDashboardGrid");
+          renderDashboard("#dashboardGrid");          
           renderLearningPlatforms("#learningPlatformsGrid");
           renderLearningPlatformDetail("#learningPlatformDetail");
           renderRoadmap("#roadmapList");
-          if (qs("#projectDetail")) {
-                   renderProjectDetail("#projectDetail", "aws-enterprise-security-monitoring-platform");
+if (qs("#projectDetail")) {
+   renderProjectDetail("#projectDetail", "aws-enterprise-security-monitoring-platform");
           }
           initReveal();
           initCounters();
