@@ -334,45 +334,46 @@
    }
 
    function renderProjectDetail(selector, projectId) {
-          const container = qs(selector);
-          if (!container || typeof FEATURED_PROJECTS === "undefined") return;
-          const p = FEATURED_PROJECTS.find((proj) => proj.id === projectId);
-          if (!p) return;
-          container.innerHTML =
-                   '<div class="reveal">' +
-                     '<span class="kicker">Featured Project \u00b7 Case Study</span>' +
-                     '<h1 style="font-size:clamp(30px,5vw,48px);font-weight:700;letter-spacing:-1px;">' + escapeHtml(p.name) + '</h1>' +
-                     '<p style="margin-top:14px;color:var(--text-muted);font-size:17px;max-width:700px;">' + escapeHtml(p.tagline) + '</p>' +
-                     '<div class="btn-row mt-24">' +
-(p.liveUrl ? '<a class="btn btn-primary" href="' + escapeHtml(p.liveUrl) + '" target="_blank" rel="noopener">View Live Demo</a>' : '') +
-                       (p.githubUrl ? '<a class="btn ' + (p.liveUrl ? "btn-secondary" : "btn-primary") + '" href="' + escapeHtml(p.githubUrl) + '" target="_blank" rel="noopener">View on GitHub</a>' : '') +
-                       (p.documentationUrl ? '<a class="btn btn-secondary" href="' + escapeHtml(p.documentationUrl) + '" target="_blank" rel="noopener">Documentation</a>' : '') +
-                     '</div>' +
-                   '</div>' +
-                   '<div class="grid grid-2 mt-40">' +
-                     '<div class="card reveal"><h3>Problem</h3><p class="mt-16">' + escapeHtml(p.problem || "") + '</p></div>' +
-                     '<div class="card reveal"><h3>Solution</h3><p class="mt-16">' + escapeHtml(p.solution || "") + '</p></div>' +
-                                  '<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">' \+ escapeHtml\(s\.caption\) \+ '</span></div>'                   '<div class="grid grid-2 mt-24">' +
-                     '<div class="card reveal"><h3>Overview</h3><p class="mt-16">' + escapeHtml(p.overview) + '</p></div>' +
-                     '<div class="card reveal"><h3>Architecture</h3><p class="mt-16">' + escapeHtml(p.architecture) + '</p></div>' +
-                   '</div>' +
-                   (p.role || (p.languages && p.languages.length) ? '<div class="grid grid-2 mt-24">' + (p.role ? '<div class="card reveal"><h3>My Role</h3><p class="mt-16">' + escapeHtml(p.role) + '</p></div>' : '') + (p.languages && p.languages.length ? '<div class="card reveal"><h3>Languages Supported</h3><div class="project-tech mt-16">' + p.languages.map((l) => '<span class="tag">' + escapeHtml(l) + '</span>').join("") + '</div></div>' : '') + '</div>' : '') +
-                   '<div class="section-head left mt-40"><span class="kicker">Architecture</span><h2>Architecture Diagram</h2></div>' + '<div class="project-media reveal" style="border-radius:18px;aspect-ratio:16/7;"><div class="grid-lines"></div><span class="media-label">Architecture diagram \u2014 coming soon</span></div>' + '<div class="card reveal mt-24"><h3>Technologies Used</h3><div class="project-tech mt-16">' +
-                     p.technologies.map((t) => '<span class="tag">' + escapeHtml(t) + '</span>').join("") +
-                   '</div></div>' +
-                   '<div class="section-head left mt-40"><span class="kicker">Gallery</span><h2>Screenshots</h2></div>' +
-                   '<div class="grid grid-2">' +
-                     p.screenshots.map((s) =>
-                                  (s.src ? '<div class="project-media reveal" style="border-radius:18px;overflow:hidden;"><img src="' + escapeHtml(s.src) + '" alt="' + escapeHtml(s.caption) + '" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>' : '<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">' + escapeHtml(s.caption) + '</span></div>')
-                                               ).join("") +
-                   '</div>' +
-                   (p.features && p.features.length ? listBlock("Key Features", p.features) : '') +
-                listBlock("Skills Demonstrated", p.skillsDemonstrated) +
-                   listBlock("Lessons Learned", p.lessonsLearned);
-   }
+        const container = qs(selector);
+        if (!container || typeof FEATURED_PROJECTS === "undefined") return;
+        const p = FEATURED_PROJECTS.find((proj) => proj.id === projectId);
+        if (!p) return;
+        container.innerHTML =
+            '<div class="reveal">' +
+              '<span class="kicker">Featured Project \u00b7 Case Study</span>' +
+              '<h1 style="font-size:clamp(30px,5vw,48px);font-weight:700;letter-spacing:-1px;">' + escapeHtml(p.name) + '</h1>' +
+              '<p style="margin-top:14px;color:var(--text-muted);font-size:17px;max-width:700px;">' + escapeHtml(p.tagline) + '</p>' +
+              '<div class="btn-row mt-24">' +
+                (p.liveUrl ? '<a class="btn btn-primary" href="' + escapeHtml(p.liveUrl) + '" target="_blank" rel="noopener">View Live Demo</a>' : '') +
+                (p.githubUrl ? '<a class="btn ' + (p.liveUrl ? "btn-secondary" : "btn-primary") + '" href="' + escapeHtml(p.githubUrl) + '" target="_blank" rel="noopener">View on GitHub</a>' : '') +
+                (p.documentationUrl ? '<a class="btn btn-secondary" href="' + escapeHtml(p.documentationUrl) + '" target="_blank" rel="noopener">Documentation</a>' : '') +
+              '</div>' +
+            '</div>' +
+            '<div class="grid grid-2 mt-40">' +
+              '<div class="card reveal"><h3>Problem</h3><p class="mt-16">' + escapeHtml(p.problem || "") + '</p></div>' +
+              '<div class="card reveal"><h3>Solution</h3><p class="mt-16">' + escapeHtml(p.solution || "") + '</p></div>' +
+            '</div>' +
+            '<div class="grid grid-2 mt-24">' +
+              '<div class="card reveal"><h3>Overview</h3><p class="mt-16">' + escapeHtml(p.overview) + '</p></div>' +
+              '<div class="card reveal"><h3>Architecture</h3><p class="mt-16">' + escapeHtml(p.architecture) + '</p></div>' +
+            '</div>' +
+            (p.role || (p.languages && p.languages.length) ? '<div class="grid grid-2 mt-24">' + (p.role ? '<div class="card reveal"><h3>My Role</h3><p class="mt-16">' + escapeHtml(p.role) + '</p></div>' : '') + (p.languages && p.languages.length ? '<div class="card reveal"><h3>Languages Supported</h3><div class="project-tech mt-16">' + p.languages.map((l) => '<span class="tag">' + escapeHtml(l) + '</span>').join("") + '</div></div>' : '') + '</div>' : '') +
+            '<div class="section-head left mt-40"><span class="kicker">Architecture</span><h2>Architecture Diagram</h2></div>' + '<div class="project-media reveal" style="border-radius:18px;aspect-ratio:16/7;"><div class="grid-lines"></div><span class="media-label">Architecture diagram \u2014 coming soon</span></div>' + '<div class="card reveal mt-24"><h3>Technologies Used</h3><div class="project-tech mt-16">' +
+              p.technologies.map((t) => '<span class="tag">' + escapeHtml(t) + '</span>').join("") +
+            '</div></div>' +
+            '<div class="section-head left mt-40"><span class="kicker">Gallery</span><h2>Screenshots</h2></div>' +
+            '<div class="grid grid-2">' +
+              p.screenshots.map((s) =>
+                (s.src ? '<div class="project-media reveal" style="border-radius:18px;overflow:hidden;"><img src="' + escapeHtml(s.src) + '" alt="' + escapeHtml(s.caption) + '" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>' : '<div class="project-media reveal" style="border-radius:18px;"><div class="grid-lines"></div><span class="media-label">' + escapeHtml(s.caption) + '</span></div>')
+              ).join("") +
+            '</div>' +
+            (p.features && p.features.length ? listBlock("Key Features", p.features) : '') +
+            listBlock("Skills Demonstrated", p.skillsDemonstrated) +
+            listBlock("Lessons Learned", p.lessonsLearned);
+        }
 
-   /* ---------- Dashboard stats ---------- */
-   function renderDashboard(selector) {
+        /* ---------- Dashboard stats ---------- */
+        function renderDashboard(selector) {
           const container = qs(selector);
           if (!container || typeof SITE_CONFIG === "undefined") return;
           const d = SITE_CONFIG.dashboard;
