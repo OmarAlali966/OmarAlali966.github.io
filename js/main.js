@@ -295,7 +295,7 @@
                        '</div>' +
                        '<div class="project-links">' +
                          '<a href="' + escapeHtml(p.detailPage || "project-aws-security.html") + '">View Case Study &rarr;</a>' +
-                         '<a href="' + escapeHtml(p.githubUrl) + '" target="_blank" rel="noopener">GitHub &rarr;</a>' +
+                         (p.githubUrl ? '<a href="' + escapeHtml(p.githubUrl) + '" target="_blank" rel="noopener">GitHub &rarr;</a>' : '') +
                        '</div>' +
                      '</div>' +
                    '</div>'
