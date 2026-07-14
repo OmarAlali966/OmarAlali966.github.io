@@ -58,3 +58,4 @@ const SITE_CONFIG = {
       securityTechnologies: 12,
       hoursHandsOn: 250,
       githubRepos: 2 }, osr: { apiEndpoint: "https://omar-alali966-github-io.vercel.app/api/chat", model: "gpt-4o-mini" } };
+window.SITE_CONFIG = SITE_CONFIG;
