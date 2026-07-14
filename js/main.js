@@ -285,8 +285,8 @@
    /* ---------- Projects ---------- */
    function featuredProjectCardHtml(p) {
           return (
-                   '<div class="project-card reveal">' +
-                     '<div class="project-media"><div class="grid-lines"></div><span class="media-label">Featured Project</span></div>' +
+                   '<div class="project-card reveal">' + (p.detailPage ? '<a href="' + escapeHtml(p.detailPage) + '" class="project-card-link" aria-label="View ' + escapeHtml(p.name) + '"></a>' : '') +
+                     '<div class="project-media">' + (p.screenshots && p.screenshots[0] && p.screenshots[0].src ? '<img src="' + escapeHtml(p.screenshots[0].src) + '" alt="' + escapeHtml(p.name) + ' preview" class="project-media-img">' : '<div class="grid-lines"></div><span class="media-label">Featured Project</span>') + '</div>' +
                      '<div class="project-body">' +
                        '<h3>' + escapeHtml(p.name) + '</h3>' +
                        '<p>' + escapeHtml(p.tagline) + '</p>' +
