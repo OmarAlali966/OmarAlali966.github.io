@@ -57,6 +57,4 @@ const SITE_CONFIG = {
       cloudServicesUsed: 9,
       securityTechnologies: 12,
       hoursHandsOn: 250,
-      githubRepos: 2
-   }
-};
+      githubRepos: 2 }, osr: { apiEndpoint: "", model: "gpt-4o-mini" } };
