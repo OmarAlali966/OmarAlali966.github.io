@@ -29,7 +29,16 @@
 // - The client cannot override the model, so cost stays predictable even if
 //   someone tampers with the request from the browser.
 
-const SYSTEM_PROMPT = "You are OSR, a friendly and knowledgeable AI assistant built into Omar Alali's cybersecurity portfolio website. Answer questions about Omar's background, projects, certifications, and general cybersecurity/cloud security topics clearly and concisely. If you don't know something specific about Omar, say so honestly instead of guessing.";
+const KNOWLEDGE = require('../knowledge.json');
+
+function buildSystemPrompt() {
+    return "You are OSR, a friendly and knowledgeable AI assistant built into Omar Alali's cybersecurity portfolio website. " +
+        "Answer questions about Omar's background, projects, certifications, skills, and contact info using ONLY the JSON data provided below, which is the single, always-current source of truth pulled directly from the live portfolio. " +
+        "Never use prior knowledge, training data, or assumptions about Omar \u2014 the JSON below always overrides anything else. " +
+        "If the answer is not present in the JSON data, say exactly: \"I couldn't find that information.\" Do not guess or invent facts, contact details, links, or numbers. " +
+        "You may also answer general cybersecurity/cloud security questions not about Omar using your own knowledge, clearly separating that from Omar-specific facts. " +
+        "Keep answers clear and concise.\n\nPORTFOLIO DATA (JSON):\n" + JSON.stringify(KNOWLEDGE);
+}
 
 const MODEL = 'gemini-flash-latest';
 const DAILY_LIMIT = parseInt(process.env.DAILY_MESSAGE_LIMIT || '25', 10);
@@ -144,7 +153,7 @@ module.exports = async function handler(req, res) {
     try {
         const requestBody = JSON.stringify({
             contents: contents,
-            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            systemInstruction: { parts: [{ text: buildSystemPrompt() }] },
             generationConfig: { temperature: 0.6, maxOutputTokens: 800 }
         });
 
