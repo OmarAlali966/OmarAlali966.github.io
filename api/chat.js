@@ -22,7 +22,7 @@
 // 4. Confirm js/data/config.js -> SITE_CONFIG.osr.apiEndpoint points at that URL.
 //
 // COST CONTROL NOTES
-// - Uses gemini-2.0-flash by default: Google's fastest/cheapest general model.
+// - Uses gemini-flash-latest by default: Google's fastest/cheapest general model.
 // - Trims conversation history to the last 10 messages (2,000 chars each)
 //   before sending, and caps model output at 800 tokens, so every request
 //   stays small and predictable.
@@ -31,7 +31,7 @@
 
 const SYSTEM_PROMPT = "You are OSR, a friendly and knowledgeable AI assistant built into Omar Alali's cybersecurity portfolio website. Answer questions about Omar's background, projects, certifications, and general cybersecurity/cloud security topics clearly and concisely. If you don't know something specific about Omar, say so honestly instead of guessing.";
 
-const MODEL = 'gemini-2.0-flash';
+const MODEL = 'gemini-flash-latest';
 const DAILY_LIMIT = parseInt(process.env.DAILY_MESSAGE_LIMIT || '25', 10);
 const MONTHLY_BUDGET_USD = parseFloat(process.env.MONTHLY_BUDGET_USD || '5');
 const EST_COST_PER_MESSAGE = parseFloat(process.env.EST_COST_PER_MESSAGE_USD || '0.004');
