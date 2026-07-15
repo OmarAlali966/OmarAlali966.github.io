@@ -142,19 +142,71 @@ module.exports = async function handler(req, res) {
         ':streamGenerateContent?alt=sse&key=' + apiKey;
 
     try {
-        const upstream = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: contents,
-                systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                generationConfig: { temperature: 0.6, maxOutputTokens: 800 }
-            })
+        const requestBody = JSON.stringify({
+            contents: contents,
+            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            generationConfig: { temperature: 0.6, maxOutputTokens: 800 }
         });
 
-        if (!upstream.ok || !upstream.body) {
-            const errText = await upstream.text();
-            res.status(upstream.status || 500).json({ error: 'Upstream error', detail: errText });
+        // Call Gemini, with a small amount of automatic retry for short-lived
+        // rate limits (e.g. per-minute quota). Daily/free-tier quota
+        // exhaustion is NOT retried -- retrying will not help until the
+        // quota resets, so we surface a friendly message instead.
+        let upstream = null;
+        let errText = '';
+        const maxAttempts = 2;
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            upstream = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: requestBody
+            });
+            if (upstream.ok && upstream.body) break;
+
+            errText = await upstream.text();
+            let retryDelayMs = null;
+            try {
+                const parsedErr = JSON.parse(errText);
+                const details = (parsedErr && parsedErr.error && parsedErr.error.details) || [];
+                const retryInfo = details.find(function (d) {
+                    return d['@type'] && d['@type'].indexOf('RetryInfo') !== -1;
+                });
+                if (retryInfo && retryInfo.retryDelay) {
+                    const secs = parseFloat(retryInfo.retryDelay);
+                    if (!isNaN(secs)) retryDelayMs = secs * 1000;
+                }
+            } catch (e) { /* not JSON, can't inspect */ }
+
+            const isRetryable = (upstream.status === 429 || upstream.status === 503) &&
+                retryDelayMs !== null && retryDelayMs <= 4000;
+            if (isRetryable && attempt < maxAttempts) {
+                await new Promise(function (r) { setTimeout(r, retryDelayMs); });
+                continue;
+            }
+            break;
+        }
+
+        if (!upstream || !upstream.ok || !upstream.body) {
+            const status = (upstream && upstream.status) || 500;
+            let reason = '';
+            try {
+                const parsedErr = JSON.parse(errText);
+                reason = (parsedErr && parsedErr.error && parsedErr.error.message) || '';
+            } catch (e) { /* not JSON */ }
+
+            let friendlyMessage;
+            if (status === 429) {
+                const looksDaily = /day/i.test(reason) || /day/i.test(errText);
+                friendlyMessage = looksDaily
+                    ? "OSR's AI backend (Google Gemini) has hit its free-tier daily quota. Please check back later once the quota resets, or reach out through the Contact page in the meantime."
+                    : "OSR's AI backend is getting a lot of requests right now and hit a temporary rate limit. Please wait a moment and try again.";
+            } else if (status >= 500) {
+                friendlyMessage = "OSR's AI backend is temporarily unavailable. Please try again in a moment.";
+            } else {
+                friendlyMessage = "OSR ran into a problem talking to its AI backend. Please try again shortly.";
+            }
+
+            res.status(status).json({ error: 'Upstream error', friendlyMessage: friendlyMessage, detail: errText });
             return;
         }
 
