@@ -1,0 +1,206 @@
+{
+  "name": "Omar Alali",
+  "headline": "Cybersecurity Graduate",
+  "tagline": "Cybersecurity Graduate | Cloud Security | AWS | SOC Analyst",
+  "targetRoles": [
+    "Cloud Security Engineer",
+    "Security Engineer",
+    "SOC Analyst"
+  ],
+  "location": "Miami, FL (originally from Saudi Arabia)",
+  "summary": "Cybersecurity graduate from Florida International University (FIU), building toward a career in cloud security. Enjoys building hands-on cloud security projects on AWS and continuously sharpening practical, real-world security skills.",
+  "bio": "Omar Alali is from Saudi Arabia and is a Cybersecurity graduate from Florida International University (FIU) with a 3.970 GPA, plus an Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence. His journey into cybersecurity started unexpectedly: while studying Business in 2018, he wanted a gaming PC but couldn't afford a prebuilt one, so he bought the parts and taught himself to build it by watching YouTube videos and reading manuals. That project sparked a passion for technology that changed his career goals completely. At the time he did not speak English, so he spent a year learning English before moving to the United States to study cybersecurity. Today he is passionate about Cloud Security, Blue Team operations, Artificial Intelligence, and continuous learning, and his goal is to become a Cloud Security Engineer while developing strong Blue Team skills in threat detection, incident response, and cloud defense.",
+  "education": {
+    "school": "Florida International University (FIU)",
+    "degree": "B.S., Cybersecurity",
+    "gpa": "3.970",
+    "additionalCertificate": "Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence",
+    "location": "Miami, FL"
+  },
+  "contact": {
+    "email": "omaradelalali@gmail.com",
+    "phoneDisplay": "(754) 259-9524",
+    "phoneDialHref": "tel:+17542595924",
+    "linkedin": "https://linkedin.com/in/omar-alali-93034b321",
+    "github": "https://github.com/OmarAlali966",
+    "resumeUrl": "https://omaralali966.github.io/assets/resume.pdf"
+  },
+  "certifications": [
+    {
+      "id": "security-plus",
+      "name": "CompTIA Security+",
+      "issuer": "CompTIA",
+      "status": "completed",
+      "issueDate": "July 2026",
+      "expirationDate": "July 2029",
+      "skills": [
+        "Threat Management",
+        "Cryptography",
+        "Identity Management",
+        "Risk Mitigation",
+        "Network Security"
+      ]
+    },
+    {
+      "id": "cysa-plus",
+      "name": "CompTIA CySA+",
+      "issuer": "CompTIA",
+      "status": "completed",
+      "issueDate": "July 2026",
+      "expirationDate": "July 2029",
+      "skills": [
+        "Threat Detection",
+        "Security Analytics",
+        "Incident Response",
+        "Vulnerability Management"
+      ]
+    },
+    {
+      "id": "sc-200",
+      "name": "Microsoft Certified: Security Operations Analyst Associate",
+      "shortName": "SC-200",
+      "issuer": "Microsoft",
+      "status": "completed",
+      "issueDate": "July 2026",
+      "expirationDate": "July 2029",
+      "skills": [
+        "Microsoft Sentinel",
+        "Microsoft Defender",
+        "KQL",
+        "Threat Hunting",
+        "SOC Analysis"
+      ]
+    },
+    {
+      "id": "aws-saa",
+      "name": "AWS Certified Solutions Architect – Associate",
+      "shortName": "AWS SAA-C03",
+      "issuer": "Amazon Web Services",
+      "status": "completed",
+      "issueDate": "July 2026",
+      "expirationDate": "July 2029",
+      "skills": [
+        "AWS Architecture",
+        "IAM",
+        "VPC Networking",
+        "Cost Optimization",
+        "High Availability"
+      ]
+    },
+    {
+      "id": "aws-security-specialty",
+      "name": "AWS Certified Security – Specialty",
+      "issuer": "Amazon Web Services",
+      "status": "in-progress",
+      "skills": [
+        "GuardDuty",
+        "Security Hub",
+        "KMS",
+        "IAM Policy Design",
+        "Incident Response on AWS"
+      ]
+    },
+    {
+      "id": "ccsk",
+      "name": "Certificate of Cloud Security Knowledge (CCSK)",
+      "issuer": "Cloud Security Alliance",
+      "status": "planned",
+      "skills": [
+        "Cloud Governance",
+        "Cloud Risk Management",
+        "Shared Responsibility Model",
+        "Cloud Architecture Security"
+      ]
+    }
+  ],
+  "projects": {
+    "featured": [
+      {
+        "id": "porchlight",
+        "name": "PorchLight",
+        "status": "Completed",
+        "tagline": "A restaurant discovery web app that finds real tables nearby based on ZIP code and budget.",
+        "liveUrl": "https://porchlight-lime.vercel.app",
+        "technologies": [
+          "HTML5",
+          "CSS3",
+          "JavaScript (Vanilla)",
+          "Google Places API",
+          "Vercel Serverless Functions",
+          "Vercel Hosting"
+        ],
+        "languages": [
+          "English",
+          "Spanish",
+          "Arabic (RTL)"
+        ],
+        "detailPage": "https://omaralali966.github.io/project-porchlight.html"
+      }
+    ],
+    "inProgress": [
+      {
+        "id": "aws-security-project",
+        "name": "AWS Enterprise Security Monitoring Platform",
+        "status": "In Progress",
+        "description": "Building a hands-on enterprise-style AWS security monitoring platform using Terraform — IAM, CloudTrail, GuardDuty, Security Hub, AWS Config, CloudWatch, and SNS."
+      }
+    ],
+    "planned": [
+      "Microsoft Sentinel SOC Lab",
+      "Azure Security Lab",
+      "Threat Hunting Lab",
+      "Detection Engineering Lab",
+      "Active Directory Lab",
+      "Cloud Incident Response Lab"
+    ]
+  },
+  "skills": {
+    "cloud": [
+      "AWS",
+      "Terraform",
+      "CloudTrail",
+      "GuardDuty",
+      "Security Hub",
+      "AWS Config",
+      "CloudWatch",
+      "IAM"
+    ],
+    "security": [
+      "Microsoft Sentinel",
+      "Splunk",
+      "Threat Hunting",
+      "Incident Response",
+      "SIEM",
+      "MITRE ATT&CK",
+      "KQL"
+    ],
+    "programming": [
+      "Python",
+      "PowerShell",
+      "Bash"
+    ],
+    "operatingSystems": [
+      "Windows",
+      "Linux"
+    ],
+    "networking": [
+      "TCP/IP",
+      "DNS",
+      "HTTP",
+      "VPN",
+      "Firewalls"
+    ]
+  },
+  "dashboardStats": {
+    "projectsCompleted": 1,
+    "projectsInProgress": 1,
+    "certifications": 4,
+    "certificationsInProgress": 1,
+    "certificationsPlanned": 1,
+    "cloudServicesUsed": 9,
+    "securityTechnologies": 12,
+    "hoursHandsOn": 250,
+    "githubRepos": 2
+  },
+  "lastUpdatedNote": "This file is the single source of truth for OSR (the site's AI assistant). Update this file whenever portfolio info changes; no AI/code changes are needed."
+}
