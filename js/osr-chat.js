@@ -2,7 +2,7 @@
     'use strict';
 
    var STORAGE_KEY = 'osr_conversations_v1';
-    var CONFIG = (window.SITE_CONFIG && window.SITE_CONFIG.osr) || { apiEndpoint: '', model: 'gpt-4o-mini' };
+    var CONFIG = (window.SITE_CONFIG && window.SITE_CONFIG.osr) || { apiEndpoint: '', model: 'gemini-2.0-flash' };
 
    var SUGGESTIONS = [
          'What projects has Omar built?',
@@ -226,7 +226,18 @@
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ messages: convo.messages, model: CONFIG.model })
          }).then(function (res) {
-                 if (!res.ok || !res.body) throw new Error('bad-response');
+                 if (!res.ok || !res.body) {
+                    return res.text().then(function (raw) {
+                        var friendly = null;
+                        try {
+                            var parsed = JSON.parse(raw);
+                            friendly = parsed.friendlyMessage || parsed.detail || parsed.error || null;
+                        } catch (e) { /* not JSON */ }
+                        var err = new Error(friendly || ('Request failed with status ' + res.status));
+                        err.isHttpError = true;
+                        throw err;
+                    });
+                }
                  var reader = res.body.getReader();
                  var decoder = new TextDecoder();
                  var acc = '';
@@ -250,8 +261,11 @@
                            });
                  }
                  return pump();
-         }).catch(function () {
-                 setBubbleNotice(typingEl, "OSR couldn't reach the AI backend just now. Please make sure the API endpoint is deployed and reachable, then try again.");
+         }).catch(function (err) {
+                    var message = (err && err.isHttpError && err.message)
+                        ? err.message
+                        : "OSR couldn't reach the AI backend just now. Please make sure the API endpoint is deployed and reachable, then try again.";
+                    setBubbleNotice(typingEl, message);
          });
    }
 
