@@ -744,3 +744,67 @@ footer .footer-links a:hover { color: var(--text); }
 .photo-frame.has-photo { padding: 0; border-radius: 50%; }
 .photo-frame .profile-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
 @media (max-width: 780px) { .photo-frame { max-width: 260px; margin: 0 auto; } }
+
+/* ---------- About Me: Premium Enhancements ---------- */
+.about-grid { row-gap: 48px; }
+@media (min-width: 781px) { .about-grid { gap: 64px; } }
+
+.about-grid .photo-frame {
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+.about-grid .photo-frame:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(10, 132, 255, 0.28);
+    border-color: var(--blue-light);
+}
+
+.about-grid .info-chip {
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+.about-grid .info-chip:hover {
+    transform: translateY(-3px);
+    border-color: var(--blue-light);
+    background: var(--surface-hover);
+}
+
+.about-grid .mini-path-icon {
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.about-grid .mini-path-item:hover .mini-path-icon {
+    transform: translateY(-4px) scale(1.08);
+    border-color: var(--blue-light);
+    box-shadow: 0 12px 30px rgba(10, 132, 255, 0.3);
+}
+
+.about-grid .card {
+    position: relative;
+    overflow: hidden;
+}
+.about-grid .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-blue);
+    opacity: 0.85;
+}
+
+.about-grid.in-view .mini-path-item,
+.about-grid.in-view .info-chip {
+    animation: aboutPopIn 0.7s var(--ease) both;
+}
+.about-grid.in-view .mini-path-item:nth-child(2) { animation-delay: 0.08s; }
+.about-grid.in-view .mini-path-item:nth-child(3) { animation-delay: 0.16s; }
+.about-grid.in-view .mini-path-item:nth-child(4) { animation-delay: 0.24s; }
+.about-grid.in-view .info-chip:nth-child(2) { animation-delay: 0.1s; }
+
+@keyframes aboutPopIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.about-grid .story p strong {
+    background: linear-gradient(135deg, rgba(10,132,255,0.16), rgba(34,211,238,0.16));
+    padding: 2px 6px;
+    border-radius: 6px;
+}
