@@ -576,7 +576,30 @@
           }
    }
 
-   /* ---------- Init ---------- */
+   /* ---------- Hero mouse parallax ---------- */
+function initHeroParallax() {
+const wrap = qs("#heroParallax");
+if (!wrap) return;
+if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
+let targetX = 0, targetY = 0, curX = 0, curY = 0;
+const strength = 10;
+window.addEventListener("mousemove", (e) => {
+const nx = (e.clientX / window.innerWidth) - 0.5;
+const ny = (e.clientY / window.innerHeight) - 0.5;
+targetX = nx * strength;
+targetY = ny * strength;
+});
+function raf() {
+curX += (targetX - curX) * 0.06;
+curY += (targetY - curY) * 0.06;
+wrap.style.transform = "translate3d(" + curX.toFixed(2) + "px," + curY.toFixed(2) + "px,0)";
+requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+}
+
+/* ---------- Init ---------- */
    document.addEventListener("DOMContentLoaded", () => {
           initNav();
           initNetworkCanvas();
@@ -598,6 +621,7 @@ if (qs("#projectDetail")) {
           }
           initReveal();
           initCounters();
+          initHeroParallax();
    });
 
    window.Portfolio = { qs, qsa, escapeHtml };
