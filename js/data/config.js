@@ -31,7 +31,7 @@ const SITE_CONFIG = {
 
   social: {
     github: "https://github.com/OmarAlali966",
-    linkedin: "https://linkedin.com/in/omar-alali-93034b321",
+    linkedin: "https://www.linkedin.com/in/omaradelalali",
     linkedinIsPlaceholder: false,
     phone: "(754) 259-9524",
     phoneDial: "+17542595924",
