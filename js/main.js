@@ -359,9 +359,48 @@ function initNetworkCanvas() {
         return { init, draw };
     }
 
+    // ---------- Depth layers: foreground dust + ambient background wash ----------
+    let fgParticles = [];
+    function initForeground(fw, fh) {
+        fgParticles = Array.from({ length: 22 }, () => ({
+            x: Math.random() * fw, y: Math.random() * fh,
+            vy: Math.random() * 0.15 + 0.05,
+            r: Math.random() * 1.3 + 0.4,
+            a: Math.random() * 0.35 + 0.12
+        }));
+    }
+    function drawForegroundLayer(fctx, fw, fh, mx, my) {
+        fctx.save();
+        fctx.translate(mx * 10, my * 8);
+        for (const p of fgParticles) {
+            p.y -= p.vy;
+            if (p.y < -10) p.y = fh + 10;
+            fctx.beginPath();
+            fctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            fctx.fillStyle = 'rgba(180,225,255,' + p.a + ')';
+            fctx.fill();
+        }
+        fctx.restore();
+    }
+    function drawBackgroundLayer(bctx, bw, bh, progressVal) {
+        bctx.save();
+        const grad = bctx.createRadialGradient(bw * 0.5, bh * (0.25 + progressVal * 0.2), 0, bw * 0.5, bh * 0.4, Math.max(bw, bh) * 0.75);
+        grad.addColorStop(0, 'rgba(14,28,50,0.35)');
+        grad.addColorStop(1, 'rgba(5,7,13,0)');
+        bctx.fillStyle = grad;
+        bctx.fillRect(0, 0, bw, bh);
+        bctx.restore();
+    }
+    function easeBlend(t) { return t * t * (3 - 2 * t); }
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5);
+        mouseY = (e.clientY / window.innerHeight - 0.5);
+    }, { passive: true });
+
     const SCENES = [
-        makeNetworkScene(), makeCircuitScene(), makeGlobeScene(), makeCloudScene(),
-        makeNeuralScene(), makeHudScene(), makeShieldScene(), makeStreamScene(), makeParticleScene()
+        makeGlobeScene(), makeNetworkScene(), makeCircuitScene(), makeCloudScene(),
+        makeNeuralScene(), makeGlobeScene(), makeHudScene(), makeShieldScene(), makeStreamScene(), makeParticleScene()
     ];
 
     function resize() {
@@ -370,22 +409,26 @@ function initNetworkCanvas() {
         canvas.width = w;
         canvas.height = h;
         SCENES.forEach((s) => s.init(w, h));
+        initForeground(w, h);
     }
 
     function step(ts) {
-        progress += (targetProgress - progress) * 0.05;
+        progress += (targetProgress - progress) * 0.035;
         ctx.clearRect(0, 0, w, h);
+        drawBackgroundLayer(ctx, w, h, progress);
         const n = SCENES.length;
         const pos = progress * n;
         let idx = Math.floor(pos) % n; if (idx < 0) idx = 0;
         const nextIdx = (idx + 1) % n;
-        const blend = pos - Math.floor(pos);
-        const shiftY = Math.sin(progress * Math.PI * 2) * 8;
+        const blend = easeBlend(pos - Math.floor(pos));
+        const shiftY = Math.sin(progress * Math.PI * 2) * 8 + mouseY * 14;
+        const shiftX = mouseX * 10;
         ctx.save();
-        ctx.translate(0, shiftY);
+        ctx.translate(shiftX, shiftY);
         SCENES[idx].draw(ctx, w, h, ts, 1 - blend);
         SCENES[nextIdx].draw(ctx, w, h, ts, blend);
         ctx.restore();
+        drawForegroundLayer(ctx, w, h, mouseX, mouseY);
         animId = requestAnimationFrame(step);
     }
 
@@ -863,10 +906,96 @@ requestAnimationFrame(raf);
 requestAnimationFrame(raf);
 }
 
+/* ---------- Page identity (per-page accent theming) ---------- */
+function initPageClass() {
+    var path = window.location.pathname.split('/').pop() || 'index.html';
+    var slug = path.replace('.html', '') || 'index';
+    document.body.classList.add('page-' + slug);
+}
+
+/* ---------- Loading screen ---------- */
+function initLoader() {
+    var loader = qs('#loader');
+    if (!loader) return;
+    var shown = Date.now();
+    function hide() {
+        var elapsed = Date.now() - shown;
+        var wait = Math.max(0, Math.min(1400, 1400 - elapsed));
+        setTimeout(function () {
+            loader.classList.add('loader-hidden');
+            setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 700);
+        }, wait);
+    }
+    if (document.readyState === 'complete') hide();
+    else window.addEventListener('load', hide, { once: true });
+    setTimeout(hide, 2000);
+}
+
+/* ---------- Back to top ---------- */
+function initBackToTop() {
+    var btn = document.createElement('button');
+    btn.className = 'back-to-top';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Back to top');
+    btn.innerHTML = '<span class="back-to-top-arrow">&#8593;</span>';
+    document.body.appendChild(btn);
+    function toggle() {
+        if (window.scrollY > 500) btn.classList.add('visible');
+        else btn.classList.remove('visible');
+    }
+    window.addEventListener('scroll', toggle, { passive: true });
+    btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    toggle();
+}
+
+/* ---------- Holographic Earth: hero + ambient recurring visual ---------- */
+function initHeroEarth() {
+    function buildEarth() {
+        var wrap = document.createElement('div');
+        wrap.className = 'earth-visual';
+        wrap.setAttribute('aria-hidden', 'true');
+        wrap.innerHTML =
+            '<div class="earth-core"></div>' +
+            '<div class="earth-ring"></div>' +
+            '<span class="earth-dot"></span>' +
+            '<span class="earth-dot"></span>' +
+            '<span class="earth-dot"></span>';
+        return wrap;
+    }
+    var heroBg = qs('.hero-bg');
+    if (heroBg) {
+        var heroEarth = buildEarth();
+        heroEarth.classList.add('hero-earth');
+        heroBg.insertAdjacentElement('afterend', heroEarth);
+    }
+    var canvas = qs('#network-canvas');
+    if (canvas) {
+        var ambient = buildEarth();
+        ambient.classList.add('ambient-earth');
+        canvas.insertAdjacentElement('afterend', ambient);
+        function updateAmbient() {
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+            var wave = (Math.sin(p * Math.PI * 6) + 1) / 2;
+            var opacity = heroBg ? Math.max(0, (p - 0.08)) * 0.22 * wave : 0.16 * wave;
+            ambient.style.setProperty('--ambient-earth-opacity', Math.min(0.22, opacity).toFixed(3));
+        }
+        window.addEventListener('scroll', updateAmbient, { passive: true });
+        updateAmbient();
+    }
+}
+
+
 /* ---------- Init ---------- */
    document.addEventListener("DOMContentLoaded", () => {
           initNav();
           initNetworkCanvas();
+          initPageClass();
+          initLoader();
+          initBackToTop();
+          initHeroEarth();
           applySiteConfig();
           renderCertifications("#homeCertPreview", (c) => c.status === "completed");
           renderCertificationsFull("#certGrid");
