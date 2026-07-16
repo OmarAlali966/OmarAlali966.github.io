@@ -69,90 +69,354 @@
           counters.forEach((c) => io.observe(c));
    }
 
-   /* ---------- Animated network / cloud canvas background ---------- */
-   function initNetworkCanvas() {
-          const canvas = qs("#network-canvas");
-          if (!canvas) return;
-          const ctx = canvas.getContext("2d");
-          let w, h, nodes, animId;
-          const NODE_COUNT = 60;
-          const LINK_DIST = 150;
+   /* ---------- Dynamic cyber background: multi-scene canvas ---------- */
+function initNetworkCanvas() {
+    const canvas = qs('#network-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w = 0, h = 0, animId = null, progress = 0, targetProgress = 0;
 
-       function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = Math.max(window.innerHeight, document.body.scrollHeight * 0.6);
-       }
+    function updateScroll() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        targetProgress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    }
 
-       function makeNodes() {
-                nodes = [];
-                for (let i = 0; i < NODE_COUNT; i++) {
-                           nodes.push({
-                                        x: Math.random() * w,
-                                        y: Math.random() * h,
-                                        vx: (Math.random() - 0.5) * 0.25,
-                                        vy: (Math.random() - 0.5) * 0.25,
-                                        r: Math.random() * 1.6 + 0.6,
-                                        pulse: Math.random() * Math.PI * 2
-                           });
+    /* ----- Scene: glowing network nodes ----- */
+    function makeNetworkScene() {
+        let nodes = [];
+        function init(w, h) {
+            nodes = Array.from({ length: 46 }, () => ({
+                x: Math.random() * w, y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+                r: Math.random() * 1.5 + 0.6, pulse: Math.random() * Math.PI * 2
+            }));
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            for (const n of nodes) {
+                n.x += n.vx; n.y += n.vy;
+                if (n.x < 0 || n.x > w) n.vx *= -1;
+                if (n.y < 0 || n.y > h) n.vy *= -1;
+                n.pulse += 0.02;
+            }
+            ctx.save(); ctx.globalAlpha = alpha;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const a = nodes[i], b = nodes[j];
+                    const dx = a.x - b.x, dy = a.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 140) {
+                        ctx.strokeStyle = 'rgba(10,132,255,' + ((1 - dist / 140) * 0.25) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                    }
                 }
-       }
+            }
+            for (const n of nodes) {
+                const glow = 0.5 + Math.sin(n.pulse) * 0.3;
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 1.2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(34,211,238,' + (glow * 0.5) + ')'; ctx.fill();
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(150,210,255,0.9)'; ctx.fill();
+            }
+            ctx.restore();
+        }
+        return { init, draw };
+    }
 
-       function step() {
-                ctx.clearRect(0, 0, w, h);
-                for (const n of nodes) {
-                           n.x += n.vx;
-                           n.y += n.vy;
-                           if (n.x < 0 || n.x > w) n.vx *= -1;
-                           if (n.y < 0 || n.y > h) n.vy *= -1;
-                           n.pulse += 0.02;
+    /* ----- Scene: circuit-board traces ----- */
+    function makeCircuitScene() {
+        let lines = [], dots = [];
+        function init(w, h) {
+            lines = [];
+            for (let i = 0; i < 16; i++) {
+                const x1 = Math.random() * w, y1 = Math.random() * h;
+                const horiz = Math.random() < 0.5;
+                const len = 70 + Math.random() * 170;
+                lines.push({ x1, y1, x2: horiz ? x1 + len : x1, y2: horiz ? y1 : y1 + len });
+            }
+            dots = lines.map(() => ({ t: Math.random(), speed: 0.0018 + Math.random() * 0.0035 }));
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            ctx.strokeStyle = 'rgba(34,211,238,0.18)'; ctx.lineWidth = 1;
+            lines.forEach((l) => {
+                ctx.beginPath(); ctx.moveTo(l.x1, l.y1); ctx.lineTo(l.x2, l.y2); ctx.stroke();
+                ctx.beginPath(); ctx.arc(l.x1, l.y1, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(34,211,238,0.35)'; ctx.fill();
+            });
+            lines.forEach((l, i) => {
+                const d = dots[i]; d.t += d.speed; if (d.t > 1) d.t = 0;
+                const x = l.x1 + (l.x2 - l.x1) * d.t, y = l.y1 + (l.y2 - l.y1) * d.t;
+                ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(10,132,255,0.9)'; ctx.fill();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
+
+    /* ----- Scene: global network hubs (world map style) ----- */
+    function makeGlobeScene() {
+        const hubs = [{ x: 0.14, y: 0.35 }, { x: 0.27, y: 0.58 }, { x: 0.44, y: 0.28 }, { x: 0.54, y: 0.62 },
+            { x: 0.67, y: 0.4 }, { x: 0.77, y: 0.68 }, { x: 0.84, y: 0.3 }, { x: 0.36, y: 0.78 },
+            { x: 0.6, y: 0.18 }, { x: 0.92, y: 0.52 }];
+        function init() {}
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            const pts = hubs.map((p) => ({ x: p.x * w, y: p.y * h }));
+            ctx.strokeStyle = 'rgba(34,211,238,0.14)'; ctx.lineWidth = 1;
+            for (let i = 0; i < pts.length; i++) {
+                for (let j = i + 1; j < pts.length; j++) {
+                    if ((i + j) % 3 === 0) {
+                        const a = pts[i], b = pts[j];
+                        const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - 40;
+                        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(mx, my, b.x, b.y); ctx.stroke();
+                    }
                 }
-                for (let i = 0; i < nodes.length; i++) {
-                           for (let j = i + 1; j < nodes.length; j++) {
-                                        const a = nodes[i], b = nodes[j];
-                                        const dx = a.x - b.x, dy = a.y - b.y;
-                                        const dist = Math.sqrt(dx * dx + dy * dy);
-                                        if (dist < LINK_DIST) {
-                                                       const alpha = (1 - dist / LINK_DIST) * 0.25;
-                                                       ctx.strokeStyle = "rgba(10,132,255," + alpha + ")";
-                                                       ctx.lineWidth = 1;
-                                                       ctx.beginPath();
-                                                       ctx.moveTo(a.x, a.y);
-                                                       ctx.lineTo(b.x, b.y);
-                                                       ctx.stroke();
-                                        }
-                           }
+            }
+            pts.forEach((p, i) => {
+                const pulse = 0.5 + Math.sin(time * 0.002 + i) * 0.4;
+                ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(120,200,255,' + (0.4 + pulse * 0.3) + ')'; ctx.fill();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
+
+    /* ----- Scene: cloud computing infrastructure ----- */
+    function makeCloudScene() {
+        let clouds = [];
+        function init(w, h) {
+            clouds = Array.from({ length: 4 }, () => ({
+                x: Math.random() * w, y: Math.random() * h * 0.55 + h * 0.05,
+                scale: 0.6 + Math.random() * 0.8, drift: 0.05 + Math.random() * 0.12,
+                nodes: Array.from({ length: 3 }, () => ({ dx: (Math.random() - 0.5) * 90, dy: 55 + Math.random() * 45 }))
+            }));
+        }
+        function shape(ctx, x, y, s) {
+            ctx.beginPath();
+            ctx.arc(x - 20 * s, y, 18 * s, Math.PI * 0.5, Math.PI * 1.5);
+            ctx.arc(x - 2 * s, y - 14 * s, 16 * s, Math.PI, Math.PI * 1.85);
+            ctx.arc(x + 20 * s, y - 4 * s, 14 * s, Math.PI * 1.4, Math.PI * 0.1);
+            ctx.arc(x + 18 * s, y + 10 * s, 14 * s, Math.PI * 1.7, Math.PI * 0.5);
+            ctx.closePath();
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            clouds.forEach((c) => {
+                c.x += c.drift; if (c.x > w + 60) c.x = -60;
+                ctx.strokeStyle = 'rgba(120,190,255,0.22)'; ctx.lineWidth = 1.2;
+                shape(ctx, c.x, c.y, c.scale); ctx.stroke();
+                c.nodes.forEach((n) => {
+                    const nx = c.x + n.dx, ny = c.y + n.dy;
+                    ctx.beginPath(); ctx.moveTo(c.x, c.y + 10 * c.scale); ctx.lineTo(nx, ny);
+                    ctx.strokeStyle = 'rgba(34,211,238,0.15)'; ctx.stroke();
+                    ctx.fillStyle = 'rgba(34,211,238,0.5)'; ctx.fillRect(nx - 3, ny - 3, 6, 6);
+                });
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
+
+    /* ----- Scene: AI neural network ----- */
+    function makeNeuralScene() {
+        let layers = [];
+        function init(w, h) {
+            const counts = [4, 6, 6, 3];
+            layers = counts.map((count, li) => Array.from({ length: count }, (_, ni) => ({
+                x: (li + 1) / (counts.length + 1) * w,
+                y: (ni + 1) / (count + 1) * h,
+                phase: Math.random() * Math.PI * 2
+            })));
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            for (let li = 0; li < layers.length - 1; li++) {
+                for (const a of layers[li]) {
+                    for (const b of layers[li + 1]) {
+                        ctx.strokeStyle = 'rgba(10,132,255,0.10)'; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                    }
                 }
-                for (const n of nodes) {
-                           const glow = 0.5 + Math.sin(n.pulse) * 0.3;
-                           ctx.beginPath();
-                           ctx.arc(n.x, n.y, n.r + 1.2, 0, Math.PI * 2);
-                           ctx.fillStyle = "rgba(34,211,238," + glow * 0.5 + ")";
-                           ctx.fill();
-                           ctx.beginPath();
-                           ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                           ctx.fillStyle = "rgba(150,210,255,0.9)";
-                           ctx.fill();
-                }
-                animId = requestAnimationFrame(step);
-       }
+            }
+            layers.flat().forEach((n) => {
+                const g = 0.5 + Math.sin(time * 0.002 + n.phase) * 0.4;
+                ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(34,211,238,' + (0.35 + g * 0.4) + ')'; ctx.fill();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
 
-       resize();
-          makeNodes();
-          step();
+    /* ----- Scene: HUD grid + scan line ----- */
+    function makeHudScene() {
+        function init() {}
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            const size = 54;
+            ctx.strokeStyle = 'rgba(34,211,238,0.07)'; ctx.lineWidth = 1;
+            for (let x = 0; x < w; x += size) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (let y = 0; y < h; y += size) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+            const scanY = (time * 0.05) % (h + 100) - 50;
+            const grad = ctx.createLinearGradient(0, scanY - 40, 0, scanY + 40);
+            grad.addColorStop(0, 'rgba(34,211,238,0)');
+            grad.addColorStop(0.5, 'rgba(34,211,238,0.10)');
+            grad.addColorStop(1, 'rgba(34,211,238,0)');
+            ctx.fillStyle = grad; ctx.fillRect(0, scanY - 40, w, 80);
+            ctx.restore();
+        }
+        return { init, draw };
+    }
 
-       let resizeTimer;
-          window.addEventListener("resize", () => {
-                   clearTimeout(resizeTimer);
-                   resizeTimer = setTimeout(() => {
-                              cancelAnimationFrame(animId);
-                              resize();
-                              makeNodes();
-                              step();
-                   }, 250);
-          });
-   }
+    /* ----- Scene: security shield motifs ----- */
+    function makeShieldScene() {
+        let shields = [];
+        function init(w, h) {
+            shields = [{ x: w * 0.5, y: h * 0.45, s: 1.4 }, { x: w * 0.15, y: h * 0.7, s: 0.7 }, { x: w * 0.85, y: h * 0.25, s: 0.8 }];
+        }
+        function path(ctx, x, y, s) {
+            const wd = 60 * s, hg = 76 * s;
+            ctx.beginPath();
+            ctx.moveTo(x, y - hg / 2);
+            ctx.bezierCurveTo(x + wd / 2, y - hg / 2, x + wd / 2, y - hg / 6, x + wd / 2, y + hg / 6);
+            ctx.bezierCurveTo(x + wd / 2, y + hg / 2, x + wd / 5, y + hg * 0.62, x, y + hg / 2);
+            ctx.bezierCurveTo(x - wd / 5, y + hg * 0.62, x - wd / 2, y + hg / 2, x - wd / 2, y + hg / 6);
+            ctx.bezierCurveTo(x - wd / 2, y - hg / 6, x - wd / 2, y - hg / 2, x, y - hg / 2);
+            ctx.closePath();
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            shields.forEach((sh, i) => {
+                ctx.strokeStyle = 'rgba(34,211,238,0.16)'; ctx.lineWidth = 1.4;
+                path(ctx, sh.x, sh.y, sh.s); ctx.stroke();
+                const check = 0.5 + Math.sin(time * 0.0015 + i) * 0.5;
+                ctx.strokeStyle = 'rgba(10,132,255,' + (0.15 + check * 0.2) + ')'; ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(sh.x - 14 * sh.s, sh.y); ctx.lineTo(sh.x - 4 * sh.s, sh.y + 14 * sh.s); ctx.lineTo(sh.x + 16 * sh.s, sh.y - 14 * sh.s);
+                ctx.stroke();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
 
-   /* ---------- Certifications ---------- */
+    /* ----- Scene: falling data streams ----- */
+    function makeStreamScene() {
+        let streams = [];
+        function init(w, h) {
+            streams = Array.from({ length: 26 }, () => ({
+                x: Math.random() * w, y: Math.random() * h, len: 40 + Math.random() * 80,
+                speed: 1 + Math.random() * 2, alpha: 0.15 + Math.random() * 0.2
+            }));
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            streams.forEach((s) => {
+                s.y += s.speed; if (s.y - s.len > h) s.y = -Math.random() * 100;
+                const grad = ctx.createLinearGradient(s.x, s.y - s.len, s.x, s.y);
+                grad.addColorStop(0, 'rgba(10,132,255,0)');
+                grad.addColorStop(1, 'rgba(34,211,238,' + s.alpha + ')');
+                ctx.strokeStyle = grad; ctx.lineWidth = 1.4;
+                ctx.beginPath(); ctx.moveTo(s.x, s.y - s.len); ctx.lineTo(s.x, s.y); ctx.stroke();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
+
+    /* ----- Scene: floating ambient particles ----- */
+    function makeParticleScene() {
+        let parts = [];
+        function init(w, h) {
+            parts = Array.from({ length: 34 }, () => ({
+                x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5,
+                vy: -(0.1 + Math.random() * 0.25), vx: (Math.random() - 0.5) * 0.1, alpha: 0.15 + Math.random() * 0.3
+            }));
+        }
+        function draw(ctx, w, h, time, alpha) {
+            if (alpha <= 0.01) return;
+            ctx.save(); ctx.globalAlpha = alpha;
+            parts.forEach((p) => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.y < -10) p.y = h + 10; if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(150,210,255,' + p.alpha + ')'; ctx.fill();
+            });
+            ctx.restore();
+        }
+        return { init, draw };
+    }
+
+    const SCENES = [
+        makeNetworkScene(), makeCircuitScene(), makeGlobeScene(), makeCloudScene(),
+        makeNeuralScene(), makeHudScene(), makeShieldScene(), makeStreamScene(), makeParticleScene()
+    ];
+
+    function resize() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        SCENES.forEach((s) => s.init(w, h));
+    }
+
+    function step(ts) {
+        progress += (targetProgress - progress) * 0.05;
+        ctx.clearRect(0, 0, w, h);
+        const n = SCENES.length;
+        const pos = progress * n;
+        let idx = Math.floor(pos) % n; if (idx < 0) idx = 0;
+        const nextIdx = (idx + 1) % n;
+        const blend = pos - Math.floor(pos);
+        const shiftY = Math.sin(progress * Math.PI * 2) * 8;
+        ctx.save();
+        ctx.translate(0, shiftY);
+        SCENES[idx].draw(ctx, w, h, ts, 1 - blend);
+        SCENES[nextIdx].draw(ctx, w, h, ts, blend);
+        ctx.restore();
+        animId = requestAnimationFrame(step);
+    }
+
+    resize();
+    updateScroll();
+    progress = targetProgress;
+
+    if (reduceMotion) {
+        SCENES[0].draw(ctx, w, h, 0, 0.6);
+        window.addEventListener('resize', () => { resize(); SCENES[0].draw(ctx, w, h, 0, 0.6); });
+        return;
+    }
+
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 250);
+    });
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            if (animId) cancelAnimationFrame(animId);
+        } else {
+            animId = requestAnimationFrame(step);
+        }
+    });
+
+    animId = requestAnimationFrame(step);
+}
+
+/* ---------- Certifications ---------- */
    function statusLabel(status) {
           if (status === "completed") return "Completed";
           if (status === "in-progress") return "In Progress";
