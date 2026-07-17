@@ -1235,3 +1235,114 @@ box-shadow: 0 10px 26px rgba(10,132,255,0.18);
 .project-card:hover::before {
     transform: rotate(20deg) translateX(220%);
 }
+
+
+/* ================================================================
+GLOBAL THREAT INTELLIGENCE CENTER
+================================================================ */
+.ti-toolbar { display: flex; flex-direction: column; gap: 20px; }
+.ti-toolbar-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.ti-updated { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--text-muted); }
+.ti-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success); display: inline-block; animation: tiPulse 1.8s ease-in-out infinite; flex-shrink: 0; }
+@keyframes tiPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+.ti-search {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 100px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  font-size: 14.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.ti-search::placeholder { color: var(--text-faint); }
+.ti-search:focus { border-color: var(--cyan); background: var(--surface-hover); }
+
+.ti-filter-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.ti-chip {
+  padding: 9px 16px;
+  border-radius: 100px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.ti-chip:hover { color: var(--text); border-color: var(--border-strong); transform: translateY(-2px); }
+.ti-chip.active { background: var(--gradient-blue); color: #01131f; border-color: transparent; }
+
+.ti-section { transition: opacity 0.3s var(--ease); }
+.ti-section.ti-hidden { display: none; }
+
+.ti-grid { align-items: stretch; }
+
+.ti-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.ti-card:hover { transform: translateY(-5px); border-color: var(--border-strong); box-shadow: 0 18px 45px rgba(0,0,0,0.35); }
+.ti-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ti-card-title { font-size: 15.5px; font-weight: 650; line-height: 1.35; word-break: break-word; }
+.ti-card-meta { font-size: 12px; color: var(--text-faint); }
+.ti-card-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.55; flex: 1; }
+.ti-card-date { font-size: 11.5px; color: var(--text-faint); white-space: nowrap; }
+.ti-card-foot { margin-top: auto; padding-top: 6px; }
+.ti-card-link { font-size: 12.5px; font-weight: 600; color: var(--blue-light); }
+
+.ti-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.ti-sev-critical { background: rgba(255,69,58,0.16); color: #ff6961; }
+.ti-sev-high { background: rgba(255,159,64,0.16); color: var(--orange); }
+.ti-sev-medium { background: rgba(251,191,36,0.16); color: var(--warning); }
+.ti-sev-low { background: rgba(94,124,255,0.16); color: var(--indigo); }
+.ti-sev-informational { background: rgba(34,211,238,0.14); color: var(--cyan); }
+
+.ti-card.ti-skeleton {
+  min-height: 168px;
+  background: linear-gradient(110deg, var(--surface) 30%, var(--surface-hover) 50%, var(--surface) 70%);
+  background-size: 200% 100%;
+  animation: tiShimmer 1.6s ease-in-out infinite;
+}
+@keyframes tiShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+.ti-unavailable {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 36px 24px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+.ti-unavailable-icon { font-size: 22px; margin-bottom: 10px; color: var(--warning); }
+.ti-unavailable-note { margin-top: 6px; font-size: 12.5px; color: var(--text-faint); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ti-live-dot, .ti-card.ti-skeleton { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .ti-toolbar-row { flex-direction: column; align-items: stretch; }
+  .ti-chip { font-size: 11.5px; padding: 8px 13px; }
+}
