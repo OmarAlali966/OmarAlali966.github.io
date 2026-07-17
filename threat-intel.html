@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Threat Intelligence Center | Omar Alali</title>
+<meta name="description" content="Live, automatically updated cybersecurity intelligence: CVEs, known exploited vulnerabilities, ransomware activity, MITRE ATT&amp;CK techniques, and official CISA &amp; Microsoft security alerts.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loader" class="loader" role="status" aria-label="Loading">
+<div class="loader-inner">
+<span class="loader-ring"></span>
+<span class="loader-ring"></span>
+<span class="loader-mark">OA</span>
+</div>
+</div>
+<canvas id="network-canvas"></canvas>
+
+<nav class="navbar">
+<div class="container">
+<a href="index.html" class="brand"><span class="brand-mark">OA</span>Omar Alali</a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="journey.html">Journey</a>
+<a href="projects.html">Projects</a>
+<a href="learning-platforms.html">Hands-on Learning</a>
+<a href="certifications.html">Certifications</a>
+<a href="skills.html">Skills</a>
+<a href="threat-intel.html" class="active">Threat Intel</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="resume.html">Resume</a>
+<a href="contact.html" class="nav-cta">Contact</a>
+</div>
+<button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+</div>
+</nav>
+<div class="mobile-menu">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="journey.html">Journey</a>
+<a href="projects.html">Projects</a>
+<a href="learning-platforms.html">Hands-on Learning</a>
+<a href="certifications.html">Certifications</a>
+<a href="skills.html">Skills</a>
+<a href="threat-intel.html">Threat Intel</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="resume.html">Resume</a>
+<a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<section class="page-hero">
+<div class="container">
+<span class="kicker reveal">Live Security Feed</span>
+<h1 class="reveal">🌍 Global Threat Intelligence Center</h1>
+<p class="reveal">Real-time signal from official public sources &mdash; CVEs, known exploited vulnerabilities, ransomware activity, MITRE ATT&amp;CK techniques, and government &amp; vendor security advisories. No mock data: if a feed is unavailable, that section says so.</p>
+</div>
+</section>
+
+<section class="section" style="padding-top:10px;">
+<div class="container">
+<div class="ti-toolbar cyber-panel reveal">
+<span class="corner corner-tl"></span><span class="corner corner-tr"></span><span class="corner corner-bl"></span><span class="corner corner-br"></span>
+<div class="ti-toolbar-row">
+<div class="ti-updated" id="tiLastUpdated"><span class="ti-live-dot"></span>Loading feeds&hellip;</div>
+<button class="btn btn-secondary btn-icon" id="tiRefreshBtn" type="button">&#8635; Refresh Now</button>
+</div>
+<div class="ti-toolbar-row">
+<input type="text" id="tiSearch" class="ti-search" placeholder="Search CVEs, groups, techniques, advisories&hellip;" autocomplete="off">
+</div>
+<div class="ti-filter-row" id="tiFilterChips">
+<button class="ti-chip active" data-filter="all" type="button">All Sources</button>
+<button class="ti-chip" data-filter="cves" type="button">Latest CVEs</button>
+<button class="ti-chip" data-filter="kev" type="button">Known Exploited</button>
+<button class="ti-chip" data-filter="attacks" type="button">Live Attack Activity</button>
+<button class="ti-chip" data-filter="ransomware" type="button">Ransomware Groups</button>
+<button class="ti-chip" data-filter="attck" type="button">MITRE ATT&amp;CK</button>
+<button class="ti-chip" data-filter="cisa" type="button">CISA Alerts</button>
+<button class="ti-chip" data-filter="msrc" type="button">Microsoft Alerts</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section section-tight ti-section" data-section="attacks">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Live Cyberattack Activity</span>
+<h2>Recently Disclosed Attacks</h2>
+<p>Newly identified ransomware-attributed cyberattacks, sourced from Ransomware.live&rsquo;s continuous leak-site monitoring.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedAttacks"></div>
+</div>
+</section>
+
+<section class="section section-tight section-alt ti-section" data-section="cves">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Vulnerability Intelligence</span>
+<h2>Latest CVEs</h2>
+<p>Newly published vulnerabilities from the National Vulnerability Database (NIST NVD), fetched live &mdash; sorted newest first.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedCves"></div>
+</div>
+</section>
+
+<section class="section section-tight ti-section" data-section="kev">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Mandated Patching</span>
+<h2>Known Exploited Vulnerabilities</h2>
+<p>CISA&rsquo;s official catalog of vulnerabilities confirmed to be actively exploited in the wild.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedKev"></div>
+</div>
+</section>
+
+<section class="section section-tight section-alt ti-section" data-section="ransomware">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Threat Actor Tracking</span>
+<h2>Active Ransomware Groups</h2>
+<p>Ransomware groups currently observed operating leak sites, tracked by Ransomware.live.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedRansomware"></div>
+</div>
+</section>
+
+<section class="section section-tight ti-section" data-section="attck">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Adversary Tactics</span>
+<h2>MITRE ATT&amp;CK Techniques</h2>
+<p>Recently updated adversary techniques from the MITRE ATT&amp;CK Enterprise framework.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedAttck"></div>
+</div>
+</section>
+
+<section class="section section-tight section-alt ti-section" data-section="cisa">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Government Advisories</span>
+<h2>CISA Cybersecurity Alerts</h2>
+<p>Official cybersecurity and ICS advisories from the Cybersecurity &amp; Infrastructure Security Agency.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedCisa"></div>
+</div>
+</section>
+
+<section class="section section-tight ti-section" data-section="msrc">
+<div class="container">
+<div class="section-head left reveal">
+<span class="kicker">Vendor Advisories</span>
+<h2>Microsoft Security Alerts</h2>
+<p>Monthly security update releases from the Microsoft Security Response Center.</p>
+</div>
+<div class="ti-grid grid grid-3 reveal" id="feedMsrc"></div>
+</div>
+</section>
+
+<section class="section text-center section-alt">
+<div class="container">
+<div class="btn-row reveal" style="justify-content:center;">
+<a class="btn btn-primary" href="contact.html">Discuss This With Me</a>
+<a class="btn btn-secondary" href="skills.html">See My Security Skills</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+<div class="footer-links">
+<a href="https://github.com/OmarAlali966" target="_blank" rel="noopener">GitHub</a>
+<a href="projects.html">Projects</a>
+<a href="certifications.html">Certifications</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="contact.html">Contact</a>
+</div>
+<div>&copy; 2026 Omar Alali &mdash; Built with intention. Always evolving.</div>
+</div>
+</footer>
+
+<script src="js/data/config.js"></script>
+<script src="js/threat-intel.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
