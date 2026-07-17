@@ -53,8 +53,14 @@ function decodeEntities(str) {
     .replace(/&amp;/g, '&');
 }
 
+// IMPORTANT: decode entities BEFORE stripping tags. RSS descriptions are
+// often HTML-escaped (e.g. "&lt;p&gt;...&lt;/p&gt;"), so a naive strip-then-
+// decode order would leave literal "<p>" text behind instead of removing it.
 function stripTags(str) {
-  return decodeEntities(String(str || '').replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+  return decodeEntities(String(str || ''))
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function parseRssItems(xml) {
@@ -66,7 +72,7 @@ function parseRssItems(xml) {
     const pubDate = (block.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [, ''])[1];
     const description = (block.match(/<description>([\s\S]*?)<\/description>/) || [, ''])[1];
     items.push({
-      title: decodeEntities(title).trim(),
+      title: decodeEntities(title).replace(/<[^>]*>/g, '').trim(),
       link: decodeEntities(link).trim(),
       pubDate: (pubDate || '').trim(),
       description: stripTags(description).slice(0, 240)
