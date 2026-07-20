@@ -130,6 +130,67 @@
 </div>
 </section>
 
+<section class="section attack-map-section" id="attack-map">
+<div class="container">
+<div class="section-head reveal">
+<span class="kicker">Live Threat Visualization</span>
+<h2>Global Attack Map</h2>
+<p>Real, publicly disclosed ransomware incidents plotted by victim country — sourced live from the same threat-intel feed that powers the Global Threat Intelligence Center. <span class="am-updated" id="amUpdated">Loading live data…</span></p>
+</div>
+<div class="am-stats reveal">
+<div class="am-stat"><span class="am-stat-num" id="amStatAttacks">0</span><span class="am-stat-label">Disclosed Attacks</span></div>
+<div class="am-stat"><span class="am-stat-num" id="amStatGroups">0</span><span class="am-stat-label">Tracked Ransomware Groups</span></div>
+<div class="am-stat"><span class="am-stat-num" id="amStatKev">0</span><span class="am-stat-label">Actively Exploited CVEs</span></div>
+<div class="am-stat"><span class="am-stat-num" id="amStatCountries">0</span><span class="am-stat-label">Countries Affected</span></div>
+</div>
+<div class="am-map-wrap reveal">
+<div class="am-toolbar">
+<button type="button" class="am-btn-pause" id="amPauseBtn" aria-pressed="false">⏸ Pause Animation</button>
+<span class="am-legend"><span class="am-dot am-dot-red"></span> Real disclosed attack (victim country) <span class="am-dot am-dot-blue"></span> Illustrative monitoring node — not a real attacker location</span>
+</div>
+<div class="am-map" id="amMap" role="img" aria-label="World map showing recent real ransomware attack disclosures by country">
+<canvas class="am-particles" id="amParticles"></canvas>
+<svg class="am-continents" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<g>
+<line class="am-grid" x1="0" y1="83" x2="1000" y2="83"></line>
+<line class="am-grid" x1="0" y1="167" x2="1000" y2="167"></line>
+<line class="am-grid" x1="0" y1="250" x2="1000" y2="250"></line>
+<line class="am-grid" x1="0" y1="333" x2="1000" y2="333"></line>
+<line class="am-grid" x1="0" y1="417" x2="1000" y2="417"></line>
+<line class="am-grid" x1="125" y1="0" x2="125" y2="500"></line>
+<line class="am-grid" x1="250" y1="0" x2="250" y2="500"></line>
+<line class="am-grid" x1="375" y1="0" x2="375" y2="500"></line>
+<line class="am-grid" x1="500" y1="0" x2="500" y2="500"></line>
+<line class="am-grid" x1="625" y1="0" x2="625" y2="500"></line>
+<line class="am-grid" x1="750" y1="0" x2="750" y2="500"></line>
+<line class="am-grid" x1="875" y1="0" x2="875" y2="500"></line>
+</g>
+<ellipse class="am-blob" cx="222" cy="125" rx="90" ry="55"></ellipse>
+<ellipse class="am-blob" cx="333" cy="291" rx="45" ry="70"></ellipse>
+<ellipse class="am-blob" cx="542" cy="111" rx="45" ry="30"></ellipse>
+<ellipse class="am-blob" cx="556" cy="250" rx="55" ry="80"></ellipse>
+<ellipse class="am-blob" cx="750" cy="125" rx="110" ry="60"></ellipse>
+<ellipse class="am-blob" cx="750" cy="90" rx="140" ry="40"></ellipse>
+<ellipse class="am-blob" cx="875" cy="319" rx="45" ry="30"></ellipse>
+</svg>
+<svg class="am-lines" id="amLines" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+<div class="am-markers" id="amMarkers"></div>
+<div class="am-toasts" id="amToasts"></div>
+<div class="am-empty" id="amEmpty" hidden>
+<span>Live attack feed is temporarily unavailable — no simulated data is shown.</span>
+<button type="button" id="amRetryBtn">Retry</button>
+</div>
+</div>
+</div>
+<div class="am-panel" id="amPanel" hidden></div>
+<div class="am-ctas reveal">
+<button type="button" class="btn btn-primary am-cta" id="amExperienceBtn">Experience a Cyberattack</button>
+<a href="threat-intel.html" class="btn btn-outline am-cta">Enter the Global Threat Center</a>
+</div>
+</div>
+</section>
+
+
 <section class="section">
 <div class="container">
 <div class="section-head left reveal">
@@ -248,5 +309,6 @@
 <script src="js/data/learning-platforms.js"></script>
 <script src="js/data/roadmap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script> <script src="js/osr-chat.js"></script> <script src="js/main.js"></script>
+<script src="js/attack-map.js"></script>
 </body>
 </html>
