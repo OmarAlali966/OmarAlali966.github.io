@@ -85,28 +85,38 @@
       .catch(function () { return null; });
   }
 
-  function animateCount(el, target) {
+  function animateCount(el, target, token) {
     if (reducedMotion) { el.textContent = target.toLocaleString(); return; }
     var start = null, duration = 1200;
     function step(ts) {
+      if (el._statToken !== token) return; // a newer setStat superseded this run
       if (!start) start = ts;
       var p = Math.min(1, (ts - start) / duration);
       var eased = 1 - Math.pow(1 - p, 3);
       el.textContent = Math.round(eased * target).toLocaleString();
-      if (p < 1) requestAnimationFrame(step);
+      if (p < 1) el._statRaf = requestAnimationFrame(step);
     }
-    requestAnimationFrame(step);
+    el._statRaf = requestAnimationFrame(step);
   }
 
+  // Sets a stat counter. Passing null renders an em dash. Every call cancels
+  // any in-flight animation or observer for that element, so a stale value
+  // from a previous (successful) load can never overwrite a cleared state.
   function setStat(el, value) {
     if (!el) return;
+    var token = (el._statToken || 0) + 1;
+    el._statToken = token;
+    if (el._statRaf) { cancelAnimationFrame(el._statRaf); el._statRaf = null; }
+    if (el._statIo) { el._statIo.disconnect(); el._statIo = null; }
     if (value == null) { el.textContent = '—'; return; }
     if (!('IntersectionObserver' in window)) { el.textContent = value.toLocaleString(); return; }
     var io = new IntersectionObserver(function (entries) {
+      if (el._statToken !== token) { io.disconnect(); return; }
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) { animateCount(el, value); io.disconnect(); }
+        if (entry.isIntersecting) { io.disconnect(); el._statIo = null; animateCount(el, value, token); }
       });
     }, { threshold: 0.25 });
+    el._statIo = io;
     io.observe(el);
   }
 
@@ -278,31 +288,68 @@
     els.empty.hidden = !show;
   }
 
+  // Wipe every piece of live UI so a failed feed never shows stale/misleading
+  // data: markers, disclosure toasts, sweep lines, sweep timer, detail panel
+  // and all four stat counters.
+  function clearAll() {
+    clearTimeout(sweepTimer);
+    attacksByCountry = {};
+    countryMarkers = [];
+    renderMarkers();
+    if (els.toasts) els.toasts.innerHTML = '';
+    if (els.lines) els.lines.innerHTML = '';
+    if (els.panel) { els.panel.hidden = true; els.panel.innerHTML = ''; }
+    setStat(els.statAttacks, null);
+    setStat(els.statCountries, null);
+    setStat(els.statGroups, null);
+    setStat(els.statKev, null);
+  }
+
+  function showUnavailable(reason) {
+    clearAll();
+    showEmptyState(true);
+    if (els.updated) els.updated.textContent = 'Live feed unavailable' + (reason ? ' — ' + reason : '');
+  }
+
+  // Loads the whole widget from the live feed. The map is driven by the
+  // ransomware-attacks feed, so if that feed is missing/empty the entire
+  // widget is treated as unavailable and everything is cleared. Group and
+  // KEV stats are refreshed together so they can never contradict the map.
   function loadData() {
+    if (els.retryBtn) els.retryBtn.disabled = true;
     showEmptyState(false);
-    return fetchJSON(ENDPOINTS.attacks).then(function (attacks) {
-      if (!attacks || !attacks.length) {
-        showEmptyState(true);
-        setStat(els.statAttacks, null);
-        setStat(els.statCountries, null);
-        countryMarkers = [];
-        renderMarkers();
+    if (els.updated) els.updated.textContent = 'Loading live data…';
+
+    return Promise.all([
+      fetchJSON(ENDPOINTS.attacks),
+      fetchJSON(ENDPOINTS.groups),
+      fetchJSON(ENDPOINTS.kev)
+    ]).then(function (res) {
+      var attacks = res[0];
+      var groups = res[1];
+      var kev = res[2];
+
+      if (!Array.isArray(attacks) || !attacks.length) {
+        showUnavailable('please retry');
         return;
       }
+
       buildMarkers(attacks);
       renderMarkers();
+      showEmptyState(false);
       setStat(els.statAttacks, attacks.length);
       setStat(els.statCountries, Object.keys(attacksByCountry).length);
+      setStat(els.statGroups, Array.isArray(groups) ? groups.length : null);
+      setStat(els.statKev, Array.isArray(kev) ? kev.length : null);
       if (els.updated) {
         els.updated.textContent = 'Live — updated ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
+      clearTimeout(sweepTimer);
       if (!paused && !reducedMotion) scheduleSweep();
-    });
-  }
-
-  function loadStat(url, el) {
-    fetchJSON(url).then(function (data) {
-      setStat(el, data ? data.length : null);
+    }).catch(function (e) {
+      showUnavailable(String((e && e.message) || 'network error'));
+    }).then(function () {
+      if (els.retryBtn) els.retryBtn.disabled = false;
     });
   }
 
@@ -330,11 +377,9 @@
     setupParticles();
     renderMarkers();
     loadData();
-    loadStat(ENDPOINTS.groups, els.statGroups);
-    loadStat(ENDPOINTS.kev, els.statKev);
 
     els.pauseBtn.addEventListener('click', togglePause);
-    els.retryBtn.addEventListener('click', function () { els.retryBtn.disabled = true; loadData().then(function () { els.retryBtn.disabled = false; }); });
+    els.retryBtn.addEventListener('click', function () { loadData(); });
     els.experienceBtn.addEventListener('click', function () {
       if (!countryMarkers.length) { spawnToast('Live feed unavailable right now -- please try again shortly.', null); return; }
       triggerRandomAttack();
