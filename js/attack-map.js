@@ -56,6 +56,8 @@
   var paused = false;
   var reducedMotion = false;
   var sweepTimer = null;
+  var feedReady = false;   // true only while real feed data is displayed
+  var loadGeneration = 0;  // guards against out-of-order/overlapping loads
   var particles = { ctx: null, w: 0, h: 0, points: [] };
 
   function $(id) { return document.getElementById(id); }
@@ -182,6 +184,7 @@
   }
 
   function spawnToast(text, link) {
+    if (!feedReady) return; // never show a disclosure toast while the feed is down
     var el = document.createElement('div');
     el.className = 'am-toast';
     el.innerHTML = '<strong>New disclosure detected</strong><div>' + esc(text) + '</div>' +
@@ -211,7 +214,7 @@
   }
 
   function triggerRandomAttack() {
-    if (!countryMarkers.length) return;
+    if (!feedReady || !countryMarkers.length) return;
     var m = countryMarkers[Math.floor(Math.random() * countryMarkers.length)];
     var s = nearestShield(m.x, m.y);
     drawLine(s._x, s._y, m.x, m.y);
@@ -225,7 +228,7 @@
 
   function scheduleSweep() {
     clearTimeout(sweepTimer);
-    if (paused || reducedMotion) return;
+    if (!feedReady || paused || reducedMotion) return;
     var delay = 2600 + Math.random() * 2200;
     sweepTimer = setTimeout(function () { triggerRandomAttack(); scheduleSweep(); }, delay);
   }
@@ -291,11 +294,20 @@
   // Wipe every piece of live UI so a failed feed never shows stale/misleading
   // data: markers, disclosure toasts, sweep lines, sweep timer, detail panel
   // and all four stat counters.
+  // Authoritatively wipes every piece of live UI so a failed feed can never
+  // show stale/misleading data. Marks the feed as NOT ready, which also stops
+  // the sweep animation from spawning any markers or disclosure toasts.
   function clearAll() {
+    feedReady = false;
     clearTimeout(sweepTimer);
+    sweepTimer = null;
     attacksByCountry = {};
     countryMarkers = [];
     renderMarkers();
+    if (els.markers) {
+      var stale = els.markers.querySelectorAll('.am-marker.threat');
+      for (var i = 0; i < stale.length; i++) stale[i].parentNode.removeChild(stale[i]);
+    }
     if (els.toasts) els.toasts.innerHTML = '';
     if (els.lines) els.lines.innerHTML = '';
     if (els.panel) { els.panel.hidden = true; els.panel.innerHTML = ''; }
@@ -315,7 +327,15 @@
   // ransomware-attacks feed, so if that feed is missing/empty the entire
   // widget is treated as unavailable and everything is cleared. Group and
   // KEV stats are refreshed together so they can never contradict the map.
+  // Loads the whole widget from the live feed. Uses a generation token so a
+  // slow/overlapping request (e.g. a cold start plus a Retry click) can never
+  // render results out of order or after a failure has cleared the map. The
+  // map is driven by the ransomware-attacks feed: if it is missing or empty
+  // the entire widget is treated as unavailable and fully cleared.
   function loadData() {
+    var gen = ++loadGeneration;
+    feedReady = false;
+    clearTimeout(sweepTimer);
     if (els.retryBtn) els.retryBtn.disabled = true;
     showEmptyState(false);
     if (els.updated) els.updated.textContent = 'Loading live data…';
@@ -325,6 +345,7 @@
       fetchJSON(ENDPOINTS.groups),
       fetchJSON(ENDPOINTS.kev)
     ]).then(function (res) {
+      if (gen !== loadGeneration) return; // a newer load superseded this one
       var attacks = res[0];
       var groups = res[1];
       var kev = res[2];
@@ -335,6 +356,7 @@
       }
 
       buildMarkers(attacks);
+      feedReady = true;
       renderMarkers();
       showEmptyState(false);
       setStat(els.statAttacks, attacks.length);
@@ -347,9 +369,10 @@
       clearTimeout(sweepTimer);
       if (!paused && !reducedMotion) scheduleSweep();
     }).catch(function (e) {
+      if (gen !== loadGeneration) return;
       showUnavailable(String((e && e.message) || 'network error'));
     }).then(function () {
-      if (els.retryBtn) els.retryBtn.disabled = false;
+      if (gen === loadGeneration && els.retryBtn) els.retryBtn.disabled = false;
     });
   }
 
