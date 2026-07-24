@@ -45,6 +45,25 @@
 
   var els = {};
   var attacksByCountry = {};
+  var feedSourceUrl = '';
+
+  // Returns a VALID, working source URL for an incident, or '' if none exists.
+  // The upstream feed sometimes provides per-incident links of the form
+  // https://www.ransomware.live/id/<base64> which return 404, so those are
+  // rejected. When an item has no usable link we fall back to the feed's own
+  // canonical listing page (feedSourceUrl). If neither is valid we return ''
+  // and the caller omits the "View Source" link entirely.
+  function sourceLink(item) {
+    var raw = item && item.link;
+    if (typeof raw === 'string' && /^https?:\/\//i.test(raw) &&
+        !/ransomware\.live\/id\//i.test(raw)) {
+      return raw;
+    }
+    if (typeof feedSourceUrl === 'string' && /^https?:\/\//i.test(feedSourceUrl)) {
+      return feedSourceUrl;
+    }
+    return '';
+  }
   var countryMarkers = [];
   var shieldNodes = [
     { name: 'Americas Monitoring Node', lat: 25, lon: -90 },
@@ -82,6 +101,11 @@
         return r.json();
       })
       .then(function (data) {
+        // Remember the feed's own canonical source page (a real, working URL)
+        // so we can fall back to it when a per-item link is missing or broken.
+        if (data && typeof data.sourceUrl === 'string' && /^https?:\/\//.test(data.sourceUrl)) {
+          feedSourceUrl = data.sourceUrl;
+        }
         return Array.isArray(data) ? data : ((data && (data.items || data.data)) || []);
       })
       .catch(function () { return null; });
@@ -173,7 +197,10 @@
       return '<div class="am-panel-row">' +
         '<span class="am-panel-date">' + esc(it.date || '') + '</span>' +
         '<span class="am-panel-title">' + esc(it.title || 'Undisclosed organization') + '</span>' +
-        (it.link ? '<a class="am-panel-link" href="' + esc(it.link) + '" target="_blank" rel="noopener">View Source ↗</a>' : '') +
+        (function () {
+          var href = sourceLink(it);
+          return href ? '<a class="am-panel-link" href="' + esc(href) + '" target="_blank" rel="noopener">View Source ↗</a>' : '';
+        })() +
         '</div>';
     }).join('');
     els.panel.innerHTML = '<button type="button" class="am-panel-close" aria-label="Close">✕</button>' +
@@ -223,7 +250,7 @@
       setTimeout(function () { if (m._el) m._el.classList.remove('impact'); }, 700);
     }
     var latest = m.items[0];
-    spawnToast(m.name + ': ' + (latest.title || 'incident'), latest.link);
+    spawnToast(m.name + ': ' + (latest.title || 'incident'), sourceLink(latest));
   }
 
   function scheduleSweep() {
