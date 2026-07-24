@@ -73,6 +73,29 @@
     { name: 'Oceania Monitoring Node', lat: -30, lon: 150 },
     { name: 'Africa Monitoring Node', lat: 2, lon: 20 }
   ];
+  // --- Attack-path origins ---------------------------------------------------
+  // The upstream feed provides ONLY the victim country; it does NOT include the
+  // attacker's real location. Rather than inventing a real attribution, we plot
+  // each attack path from a clearly-labelled ILLUSTRATIVE origin. These points
+  // are fictional "threat origin" markers used purely for visualization and are
+  // labelled as such in the UI. A victim is mapped to an origin deterministically
+  // (by a hash of its country code) so the path is stable rather than random.
+  var ORIGIN_POOL = [
+    { lat: 55, lon: 100, name: 'Illustrative origin (region A)' },
+    { lat: 35, lon: 105, name: 'Illustrative origin (region B)' },
+    { lat: 48, lon: 38, name: 'Illustrative origin (region C)' },
+    { lat: 30, lon: 55, name: 'Illustrative origin (region D)' },
+    { lat: 5, lon: 20, name: 'Illustrative origin (region E)' }
+  ];
+  function originFor(code) {
+    var h = 0;
+    var s = String(code || '');
+    for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) >>> 0; }
+    var o = ORIGIN_POOL[h % ORIGIN_POOL.length];
+    var pos = project(o.lat, o.lon);
+    return { x: pos.x, y: pos.y, name: o.name };
+  }
+  var originMarkers = [];
   var paused = false;
   var reducedMotion = false;
   var sweepTimer = null;
@@ -162,7 +185,8 @@
     countryMarkers = Object.keys(attacksByCountry).map(function (code) {
       var geo = COUNTRY[code];
       var pos = project(geo[0], geo[1]);
-      return { code: code, name: geo[2], x: pos.x, y: pos.y, items: attacksByCountry[code] };
+      var o = originFor(code);
+      return { code: code, name: geo[2], x: pos.x, y: pos.y, items: attacksByCountry[code], _origin: o };
     });
   }
 
@@ -182,6 +206,23 @@
       el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPanel(m); } });
       els.markers.appendChild(el);
       m._el = el;
+    });
+    // Illustrative origin markers (clearly labelled as not real attribution)
+    originMarkers = [];
+    var seenOrigins = {};
+    countryMarkers.forEach(function (m) {
+      var o = m._origin; if (!o) return;
+      var key = o.x + ',' + o.y;
+      if (seenOrigins[key]) return;
+      seenOrigins[key] = true;
+      var oel = document.createElement('div');
+      oel.className = 'am-marker origin';
+      oel.style.left = o.x + '%';
+      oel.style.top = o.y + '%';
+      oel.title = o.name + ' (not a real attribution)';
+      oel.setAttribute('aria-hidden', 'true');
+      els.markers.appendChild(oel);
+      originMarkers.push(oel);
     });
     shieldNodes.forEach(function (s) {
       var pos = project(s.lat, s.lon);
@@ -236,6 +277,45 @@
     setTimeout(function () { if (line.parentNode) line.remove(); }, 1500);
   }
 
+  // Draws a curved attack path from an (illustrative) origin to the victim,
+  // with a small dot that travels along it. Coordinates are in map percent.
+  function drawPath(x1, y1, x2, y2) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var X1 = x1 * 10, Y1 = y1 * 5, X2 = x2 * 10, Y2 = y2 * 5;
+    // control point: midpoint lifted perpendicular for an arc
+    var mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
+    var dx = X2 - X1, dy = Y2 - Y1;
+    var dist = Math.hypot(dx, dy) || 1;
+    var lift = Math.min(dist * 0.28, 160);
+    var cx = mx - (dy / dist) * lift;
+    var cy = my - (dx / dist) * lift * -1;
+    var dPath = 'M' + X1 + ',' + Y1 + ' Q' + cx + ',' + cy + ' ' + X2 + ',' + Y2;
+    var path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', dPath);
+    path.setAttribute('class', 'am-path active');
+    els.lines.appendChild(path);
+    var dot = document.createElementNS(ns, 'circle');
+    dot.setAttribute('r', '3.2');
+    dot.setAttribute('class', 'am-path-dot');
+    els.lines.appendChild(dot);
+    var startT = null, DUR = 1100;
+    function move(ts) {
+      if (startT === null) startT = ts;
+      var t = Math.min((ts - startT) / DUR, 1);
+      // quadratic bezier point
+      var u = 1 - t;
+      var px = u * u * X1 + 2 * u * t * cx + t * t * X2;
+      var py = u * u * Y1 + 2 * u * t * cy + t * t * Y2;
+      dot.setAttribute('cx', px);
+      dot.setAttribute('cy', py);
+      if (t < 1 && !reducedMotion) { requestAnimationFrame(move); }
+      else { if (dot.parentNode) dot.remove(); }
+    }
+    if (reducedMotion) { dot.setAttribute('cx', X2); dot.setAttribute('cy', Y2); setTimeout(function(){ if(dot.parentNode) dot.remove(); }, 400); }
+    else { requestAnimationFrame(move); }
+    setTimeout(function () { if (path.parentNode) path.remove(); }, 1600);
+  }
+
   function nearestShield(x, y) {
     var best = shieldNodes[0], bestD = Infinity;
     shieldNodes.forEach(function (s) {
@@ -248,14 +328,15 @@
   function triggerRandomAttack() {
     if (!feedReady || !countryMarkers.length) return;
     var m = countryMarkers[Math.floor(Math.random() * countryMarkers.length)];
-    var s = nearestShield(m.x, m.y);
-    drawLine(s._x, s._y, m.x, m.y);
+    var o = m._origin || originFor(m.code);
+    drawPath(o.x, o.y, m.x, m.y);
     if (m._el) {
       m._el.classList.add('impact');
       setTimeout(function () { if (m._el) m._el.classList.remove('impact'); }, 700);
     }
     var latest = m.items[0];
-    spawnToast(m.name + ': ' + (latest.title || 'incident'), sourceLink(latest));
+    var oname = (m._origin || originFor(m.code)).name;
+    spawnToast(oname + ' → ' + m.name + ': ' + (latest.title || 'incident'), sourceLink(latest));
   }
 
   function scheduleSweep() {
