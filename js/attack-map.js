@@ -46,6 +46,7 @@
   var els = {};
   var attacksByCountry = {};
   var feedSourceUrl = '';
+  var autoRetryTimer = null;
 
   // Returns a VALID, working source URL for an incident, or '' if none exists.
   // The upstream feed sometimes provides per-incident links of the form
@@ -101,9 +102,13 @@
         return r.json();
       })
       .then(function (data) {
-        // Remember the feed's own canonical source page (a real, working URL)
-        // so we can fall back to it when a per-item link is missing or broken.
-        if (data && typeof data.sourceUrl === 'string' && /^https?:\/\//.test(data.sourceUrl)) {
+        // Remember the ATTACKS feed's own canonical source page (a real, working
+        // URL) so we can fall back to it when a per-item link is missing or
+        // broken. Scoped to the attacks endpoint only, since the map markers are
+        // attacks — the groups/KEV feeds have different source pages that would
+        // be the wrong destination for an attack incident's "View Source" link.
+        if (/ransomware-attacks/i.test(url) && data &&
+            typeof data.sourceUrl === 'string' && /^https?:\/\//.test(data.sourceUrl)) {
           feedSourceUrl = data.sourceUrl;
         }
         return Array.isArray(data) ? data : ((data && (data.items || data.data)) || []);
@@ -315,7 +320,7 @@
   }
 
   function showEmptyState(show) {
-    els.empty.hidden = !show;
+    if (els.empty) els.empty.hidden = !show;
   }
 
   // Wipe every piece of live UI so a failed feed never shows stale/misleading
@@ -345,19 +350,15 @@
   }
 
   function showUnavailable(reason) {
-    // The critical feed failed: clear stale/misleading markers so nothing false
-    // is shown, but keep the MAP visible. Do NOT display the large unavailable
-    // message. Show only a subtle inline indicator (which carries the Retry
-    // button) plus a soft status label.
+    // The critical feed failed or returned nothing. Keep the map completely
+    // CLEAN: clear any stale/misleading markers so nothing false is shown, but
+    // display NO status message and NO retry button on the map. The header
+    // "updated" label is set to a neutral value, and a silent background retry
+    // is scheduled so the feed reconnects on its own without any UI.
     clearAll();
-    showEmptyState(true);
-    if (els.empty) els.empty.setAttribute('data-subtle', 'true');
-    if (els.emptyText) {
-      els.emptyText.textContent = reason && /no live|idle|quiet/i.test(reason)
-        ? 'No live attacks right now.'
-        : 'Live feed paused — retry to reconnect.';
-    }
-    if (els.updated) els.updated.textContent = 'Live feed paused' + (reason ? ' — ' + reason : '');
+    showEmptyState(false);
+    if (els.updated) els.updated.textContent = 'Live';
+    scheduleAutoRetry();
   }
 
   // Loads the whole widget from the live feed. The map is driven by the
@@ -391,6 +392,14 @@
   // groups/KEV feeds load independently and never take the map down — if one
   // fails, only its own statistic shows as unavailable ('—'). A generation token
   // prevents slow/overlapping loads from rendering out of order.
+  // Silently retries the feed in the background after a failure so it can
+  // recover without any on-screen message or Retry button. Cancelled as soon
+  // as a load succeeds.
+  function scheduleAutoRetry() {
+    clearTimeout(autoRetryTimer);
+    autoRetryTimer = setTimeout(function () { loadData(); }, 20000);
+  }
+
   function loadData() {
     var gen = ++loadGeneration;
     feedReady = false;
@@ -421,7 +430,8 @@
       buildMarkers(attacks);
       feedReady = true;
       renderMarkers();
-      showEmptyState(false); // remove the banner immediately on success/retry
+      showEmptyState(false);
+      clearTimeout(autoRetryTimer); // a successful load cancels any pending silent retry
       if (els.empty) els.empty.removeAttribute('data-subtle');
       setStat(els.statAttacks, attacks.length);
       setStat(els.statCountries, Object.keys(attacksByCountry).length);
@@ -470,7 +480,7 @@
     loadData();
 
     els.pauseBtn.addEventListener('click', togglePause);
-    els.retryBtn.addEventListener('click', function () { loadData(); });
+    if (els.retryBtn) els.retryBtn.addEventListener('click', function () { loadData(); });
     els.experienceBtn.addEventListener('click', function () {
       if (!countryMarkers.length) { spawnToast('Live feed unavailable right now -- please try again shortly.', null); return; }
       triggerRandomAttack();
