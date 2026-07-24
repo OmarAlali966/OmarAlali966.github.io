@@ -7,9 +7,11 @@
 <meta name="description" content="Omar Alali &mdash; Cybersecurity graduate building toward Cloud Security Engineer, Security Engineer, and SOC Analyst roles.">
 <link rel="stylesheet" href="css/style.css">
 <style>
-/* Subtle inline indicator instead of a large blocking "unavailable" overlay */
-.am-empty[data-subtle]{position:absolute;top:auto;left:50%;bottom:14px;transform:translateX(-50%);width:auto;max-width:calc(100% - 28px);height:auto;padding:7px 12px;background:rgba(5,7,13,0.72);border:1px solid rgba(154,167,184,0.35);border-radius:999px;font-size:12.5px;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.35);backdrop-filter:blur(4px);}
-.am-empty[data-subtle] #amRetryBtn{padding:3px 12px;font-size:12px;}
+/* The feed-status indicator is ALWAYS a subtle inline pill, never a large
+   blocking overlay — applied to .am-empty directly so no timing/race can make
+   the old full-cover message flash during loading. */
+.am-empty{position:absolute!important;top:auto!important;left:50%!important;bottom:14px!important;right:auto!important;transform:translateX(-50%)!important;width:auto!important;max-width:calc(100% - 28px)!important;height:auto!important;padding:7px 12px!important;background:rgba(5,7,13,0.72)!important;border:1px solid rgba(154,167,184,0.35)!important;border-radius:999px!important;font-size:12.5px!important;gap:10px!important;box-shadow:0 4px 16px rgba(0,0,0,0.35);backdrop-filter:blur(4px);}
+.am-empty #amRetryBtn{padding:3px 12px!important;font-size:12px!important;}
 </style>
 </head>
 <body>
