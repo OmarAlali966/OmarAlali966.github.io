@@ -1376,7 +1376,9 @@ GLOBAL THREAT INTELLIGENCE CENTER
 .am-continents { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
 .am-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
 .am-continents .am-blob { fill: rgba(94,124,255,0.12); }
-.am-continents .am-grid { stroke: rgba(255,255,255,0.06); stroke-width: 1; fill: none; }
+.am-continents .am-grid { stroke: rgba(255,255,255,0.05); stroke-width: 0.8; fill: none; }
+.am-continents .am-land { fill: rgba(94,124,255,0.16); stroke: rgba(140,170,255,0.38); stroke-width: 0.7; stroke-linejoin: round; }
+.am-continents .am-graticule .am-grid { stroke: rgba(255,255,255,0.045); stroke-width: 0.7; }
 
 .am-line { stroke: #22d3ee; stroke-width: 1.6; fill: none; stroke-dasharray: 6 5; opacity: 0; }
 .am-line.active { opacity: 0.9; animation: amDash 1.1s linear forwards, amFadeOut 0.5s ease 0.7s forwards; }
