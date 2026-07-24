@@ -332,23 +332,49 @@
   // render results out of order or after a failure has cleared the map. The
   // map is driven by the ransomware-attacks feed: if it is missing or empty
   // the entire widget is treated as unavailable and fully cleared.
+  // Fetch a feed with a few quick retries so a cold serverless start (first
+  // request after idle) isn't mistaken for an outage. Resolves to an array,
+  // or null if it genuinely failed after all attempts.
+  function fetchFeed(url, label, attempts) {
+    attempts = attempts || 1;
+    return fetchJSON(url).then(function (data) {
+      if (Array.isArray(data)) return data;
+      if (attempts > 1) {
+        return new Promise(function (r) { setTimeout(r, 700); }).then(function () {
+          return fetchFeed(url, label, attempts - 1);
+        });
+      }
+      try { console.warn('[attack-map] feed failed:', label, url); } catch (e) {}
+      return null;
+    });
+  }
+
+  // Loads the widget. The map is driven ONLY by the ransomware-attacks feed:
+  // the 'unavailable' banner appears solely when THAT feed fails. The optional
+  // groups/KEV feeds load independently and never take the map down — if one
+  // fails, only its own statistic shows as unavailable ('—'). A generation token
+  // prevents slow/overlapping loads from rendering out of order.
   function loadData() {
     var gen = ++loadGeneration;
     feedReady = false;
     clearTimeout(sweepTimer);
     if (els.retryBtn) els.retryBtn.disabled = true;
-    showEmptyState(false);
     if (els.updated) els.updated.textContent = 'Loading live data…';
 
-    return Promise.all([
-      fetchJSON(ENDPOINTS.attacks),
-      fetchJSON(ENDPOINTS.groups),
-      fetchJSON(ENDPOINTS.kev)
-    ]).then(function (res) {
-      if (gen !== loadGeneration) return; // a newer load superseded this one
-      var attacks = res[0];
-      var groups = res[1];
-      var kev = res[2];
+    // Optional feeds: their result is applied only once the map is live, so a
+    // number never flashes while the critical feed is still loading/failed.
+    function applyOptional(el, data) {
+      if (gen !== loadGeneration || !feedReady) return;
+      setStat(el, Array.isArray(data) ? data.length : null);
+    }
+    var groupsP = fetchFeed(ENDPOINTS.groups, 'ransomware-groups', 2);
+    var kevP = fetchFeed(ENDPOINTS.kev, 'kev', 2);
+    groupsP.then(function (g) { applyOptional(els.statGroups, g); });
+    kevP.then(function (k) { applyOptional(els.statKev, k); });
+
+    // Critical feed: only this one controls the availability banner.
+    return fetchFeed(ENDPOINTS.attacks, 'ransomware-attacks', 3).then(function (attacks) {
+      if (gen !== loadGeneration) return; // superseded by a newer load
 
       if (!Array.isArray(attacks) || !attacks.length) {
         showUnavailable('please retry');
@@ -358,11 +384,13 @@
       buildMarkers(attacks);
       feedReady = true;
       renderMarkers();
-      showEmptyState(false);
+      showEmptyState(false); // remove the banner immediately on success/retry
       setStat(els.statAttacks, attacks.length);
       setStat(els.statCountries, Object.keys(attacksByCountry).length);
-      setStat(els.statGroups, Array.isArray(groups) ? groups.length : null);
-      setStat(els.statKev, Array.isArray(kev) ? kev.length : null);
+      // Apply optional stats now that the map is live (covers feeds that
+      // resolved before attacks, and shows '—' for any that failed).
+      groupsP.then(function (g) { applyOptional(els.statGroups, g); });
+      kevP.then(function (k) { applyOptional(els.statKev, k); });
       if (els.updated) {
         els.updated.textContent = 'Live — updated ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
@@ -370,6 +398,7 @@
       if (!paused && !reducedMotion) scheduleSweep();
     }).catch(function (e) {
       if (gen !== loadGeneration) return;
+      try { console.warn('[attack-map] load error:', e && e.message); } catch (er) {}
       showUnavailable(String((e && e.message) || 'network error'));
     }).then(function () {
       if (gen === loadGeneration && els.retryBtn) els.retryBtn.disabled = false;
