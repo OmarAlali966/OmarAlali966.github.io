@@ -7,7 +7,7 @@
 // stylized illustration of live monitoring -- they are NOT geolocated
 // attacker origins, and are labeled as illustrative in the UI. If the live
 // feed is unavailable, no markers or numbers are invented -- a clear
-// "feed unavailable" message is shown instead.
+// map stays visible and only a subtle inline indicator is shown instead.
 (function () {
   'use strict';
 
@@ -318,9 +318,19 @@
   }
 
   function showUnavailable(reason) {
+    // The critical feed failed: clear stale/misleading markers so nothing false
+    // is shown, but keep the MAP visible. Do NOT display the large unavailable
+    // message. Show only a subtle inline indicator (which carries the Retry
+    // button) plus a soft status label.
     clearAll();
     showEmptyState(true);
-    if (els.updated) els.updated.textContent = 'Live feed unavailable' + (reason ? ' — ' + reason : '');
+    if (els.empty) els.empty.setAttribute('data-subtle', 'true');
+    if (els.emptyText) {
+      els.emptyText.textContent = reason && /no live|idle|quiet/i.test(reason)
+        ? 'No live attacks right now.'
+        : 'Live feed paused — retry to reconnect.';
+    }
+    if (els.updated) els.updated.textContent = 'Live feed paused' + (reason ? ' — ' + reason : '');
   }
 
   // Loads the whole widget from the live feed. The map is driven by the
@@ -385,6 +395,7 @@
       feedReady = true;
       renderMarkers();
       showEmptyState(false); // remove the banner immediately on success/retry
+      if (els.empty) els.empty.removeAttribute('data-subtle');
       setStat(els.statAttacks, attacks.length);
       setStat(els.statCountries, Object.keys(attacksByCountry).length);
       // Apply optional stats now that the map is live (covers feeds that
@@ -413,6 +424,7 @@
     els.lines = $('amLines');
     els.toasts = $('amToasts');
     els.empty = $('amEmpty');
+    els.emptyText = $('amEmptyText');
     els.panel = $('amPanel');
     els.particles = $('amParticles');
     els.pauseBtn = $('amPauseBtn');
