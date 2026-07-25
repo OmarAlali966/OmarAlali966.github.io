@@ -15,7 +15,7 @@ const ROADMAP = [
   { id: "aws-saa", title: "AWS Solutions Architect \u2013 Associate", category: "cert", status: "done", completionDate: "July 2026" },
   { id: "aws-monitoring-platform", title: "AWS Enterprise Security Monitoring Platform", category: "project", status: "in-progress", completionDate: null },
   { id: "aws-security-specialty", title: "AWS Security Specialty", category: "cert", status: "in-progress", completionDate: null },
-  { id: "ccsk", title: "CCSK", category: "cert", status: "planned", completionDate: null },
+  { id: "ccsk", title: "CCSK", category: "cert", status: "in-progress", completionDate: null },
   { id: "ceh", title: "Certified Ethical Hacker (CEH)", category: "cert", status: "in-progress", completionDate: null },
   { id: "gcih", title: "GIAC Certified Incident Handler (GCIH)", category: "cert", status: "in-progress", completionDate: null },
   { id: "gsoc", title: "GIAC Security Operations Certified (GSOC)", category: "cert", status: "in-progress", completionDate: null },
@@ -24,8 +24,8 @@ const ROADMAP = [
   { id: "ecthpv2", title: "eLearnSecurity Certified Threat Hunting Professional v2 (eCTHPv2)", category: "cert", status: "in-progress", completionDate: null },
   { id: "ecdfp", title: "eLearnSecurity Certified Digital Forensics Professional (eCDFP)", category: "cert", status: "in-progress", completionDate: null },
   { id: "osda", title: "OffSec Defense Analyst (OSDA / SOC-200)", category: "cert", status: "in-progress", completionDate: null },
-  { id: "sentinel-lab", title: "Microsoft Sentinel SOC Lab", category: "project", status: "planned", completionDate: null },
-  { id: "azure-lab", title: "Azure Security Lab", category: "project", status: "planned", completionDate: null },
-  { id: "first-role", title: "First Cloud Security Engineer Position", category: "career", status: "planned", completionDate: null },
-  { id: "cissp", title: "CISSP", category: "cert", status: "planned", completionDate: null }
+  { id: "sentinel-lab", title: "Microsoft Sentinel SOC Lab", category: "project", status: "in-progress", completionDate: null },
+  { id: "azure-lab", title: "Azure Security Lab", category: "project", status: "in-progress", completionDate: null },
+  { id: "first-role", title: "First Cloud Security Engineer Position", category: "career", status: "in-progress", completionDate: null },
+  { id: "cissp", title: "CISSP", category: "cert", status: "in-progress", completionDate: null }
   ];
