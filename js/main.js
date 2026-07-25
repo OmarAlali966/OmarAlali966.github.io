@@ -685,13 +685,9 @@ function initNetworkCanvas() {
           if (!container || typeof SITE_CONFIG === "undefined") return;
           const d = SITE_CONFIG.dashboard;
           const stats = [
-             { label: "Projects Completed", value: d.projectsCompleted },
-             { label: "Projects In Progress", value: d.projectsInProgress },
-             { label: "Certifications Earned", value: d.certifications },
              { label: "Cloud Services Used", value: d.cloudServicesUsed },
              { label: "Security Technologies", value: d.securityTechnologies },
-             { label: "Hours Hands-On Practice", value: d.hoursHandsOn, suffix: "+" },
-             { label: "GitHub Repositories", value: d.githubRepos }
+             { label: "Hours Hands-On Practice", value: d.hoursHandsOn, suffix: "+" }
                  ];
           container.innerHTML = stats.map((s) =>
                    '<div class="stat-card reveal">' +
