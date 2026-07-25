@@ -9,10 +9,10 @@
    ============================================================ */
 
 const ROADMAP = [
-  { id: "security-plus", title: "CompTIA Security+", category: "cert", status: "done", completionDate: "Add completion date" },
-  { id: "cysa-plus", title: "CompTIA CySA+", category: "cert", status: "done", completionDate: "Add completion date" },
-  { id: "sc-200", title: "Microsoft SC-200", category: "cert", status: "done", completionDate: "Add completion date" },
-  { id: "aws-saa", title: "AWS Solutions Architect \u2013 Associate", category: "cert", status: "done", completionDate: "Add completion date" },
+  { id: "security-plus", title: "CompTIA Security+", category: "cert", status: "done", completionDate: "July 2026" },
+  { id: "cysa-plus", title: "CompTIA CySA+", category: "cert", status: "done", completionDate: "July 2026" },
+  { id: "sc-200", title: "Microsoft SC-200", category: "cert", status: "done", completionDate: "July 2026" },
+  { id: "aws-saa", title: "AWS Solutions Architect \u2013 Associate", category: "cert", status: "done", completionDate: "July 2026" },
   { id: "aws-monitoring-platform", title: "AWS Enterprise Security Monitoring Platform", category: "project", status: "in-progress", completionDate: null },
   { id: "aws-security-specialty", title: "AWS Security Specialty", category: "cert", status: "in-progress", completionDate: null },
   { id: "ccsk", title: "CCSK", category: "cert", status: "planned", completionDate: null },
