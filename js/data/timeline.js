@@ -80,13 +80,5 @@ const TIMELINE = [
         title: "CCSK (In Progress)",
         description: "Planning to pursue the Certificate of Cloud Security Knowledge (CCSK) to strengthen vendor-neutral cloud security governance knowledge.",
         isPlaceholderDate: false
-  },
-  {
-        id: "future-cse",
-        type: "future",
-        date: "The Road Ahead",
-        title: "Future Cloud Security Engineer",
-        description: "Working toward a full-time role as a Cloud Security Engineer, Security Engineer, or SOC Analyst \u2014 applying hands-on cloud security skills at enterprise scale.",
-        isPlaceholderDate: false
   }
   ];
