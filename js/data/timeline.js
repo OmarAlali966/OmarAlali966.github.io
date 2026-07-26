@@ -12,42 +12,42 @@ const TIMELINE = [
   {
         id: "start-cyber",
         type: "education",
-        date: "Add date",
+        date: "August 2022",
         title: "Started Studying Cybersecurity",
         description: "Began the Cybersecurity program at Florida International University (FIU), building a foundation in networking, systems, and security fundamentals.",
-        isPlaceholderDate: true
+        isPlaceholderDate: false
   },
   {
         id: "security-plus",
         type: "cert",
-        date: "Add date",
+        date: "July 2026",
         title: "CompTIA Security+",
         description: "Earned CompTIA Security+, validating core security principles: risk management, cryptography, identity, and network security.",
-        isPlaceholderDate: true
+        isPlaceholderDate: false
   },
   {
         id: "cysa-plus",
         type: "cert",
-        date: "Add date",
+        date: "July 2026",
         title: "CompTIA CySA+",
         description: "Earned CompTIA CySA+, focused on threat detection, security analytics, and incident response from a SOC analyst perspective.",
-        isPlaceholderDate: true
+        isPlaceholderDate: false
   },
   {
         id: "sc-200",
         type: "cert",
-        date: "Add date",
+        date: "July 2026",
         title: "Microsoft SC-200",
         description: "Earned the Microsoft Certified: Security Operations Analyst Associate certification, covering Microsoft Sentinel, Defender, and KQL-based threat hunting.",
-        isPlaceholderDate: true
+        isPlaceholderDate: false
   },
   {
         id: "aws-saa",
         type: "cert",
-        date: "Add date",
+        date: "July 2026",
         title: "AWS Solutions Architect \u2013 Associate",
         description: "Earned AWS Certified Solutions Architect \u2013 Associate, developing a strong foundation in AWS architecture, IAM, networking, and cost-aware design.",
-        isPlaceholderDate: true
+        isPlaceholderDate: false
   },
   {
         id: "aws-security-project",
@@ -68,8 +68,8 @@ const TIMELINE = [
   {
         id: "ccsk",
         type: "cert",
-        date: "Planned",
-        title: "CCSK (Planned)",
+        date: "In Progress",
+        title: "CCSK (In Progress)",
         description: "Planning to pursue the Certificate of Cloud Security Knowledge (CCSK) to strengthen vendor-neutral cloud security governance knowledge.",
         isPlaceholderDate: false
   },
