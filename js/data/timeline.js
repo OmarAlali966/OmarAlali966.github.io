@@ -10,6 +10,14 @@
 
 const TIMELINE = [
   {
+        id: "learn-english",
+        type: "education",
+        date: "August 2021",
+        title: "Learned English at OHLA School (Miami)",
+        description: "Studied English at OHLA School in Miami, building the language foundation for pursuing higher education and a cybersecurity career in the United States.",
+        isPlaceholderDate: false
+  },
+  {
         id: "start-cyber",
         type: "education",
         date: "August 2022",
