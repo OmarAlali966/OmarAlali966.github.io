@@ -1653,3 +1653,7 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
 .heading-ico .about-ico svg { stroke: var(--blue-light); color: var(--blue-light); }
 .heading-ico:hover .about-ico svg { transform: translateY(-2px); stroke: var(--cyan); color: var(--cyan); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.4)); }
 .card:hover .heading-ico .about-ico svg { stroke: var(--cyan); color: var(--cyan); }
+
+/* about-story vertical alignment */
+.about-grid > div:last-child { align-self: center; }
+@media (max-width: 780px) { .about-grid > div:last-child { align-self: start; } }
