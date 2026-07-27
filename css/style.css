@@ -1539,7 +1539,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
 .focus-ico { font-size: 1.05rem; line-height: 1; }
 .mini-path-h {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
   position: relative;
   padding: 8px 0 4px;
@@ -1551,7 +1551,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
 }
 .mini-path-h .mini-path-item {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  gap: 10px; position: relative; z-index: 1; padding: 0 2px;
+  gap: 10px; position: relative; z-index: 1; padding: 0 2px; min-width: 0;
 }
 .mini-path-h .mini-path-icon {
   width: 52px; height: 52px; border-radius: 50%;
@@ -1568,7 +1568,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
   box-shadow: 0 10px 28px -6px rgba(10,132,255,0.7);
 }
 .mini-path-h .mini-path-item span {
-  font-size: 0.8rem; font-weight: 600; color: var(--text-muted); line-height: 1.3; max-width: 12ch;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-muted); line-height: 1.3; max-width: 100%; overflow-wrap: break-word; hyphens: auto;
 }
 .mini-path-h .mini-path-item:hover span { color: var(--text); }
 @media (max-width: 900px) {
