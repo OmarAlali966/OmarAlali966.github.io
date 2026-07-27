@@ -1641,3 +1641,14 @@ GLOBAL THREAT INTELLIGENCE CENTER
   transform: translateY(-3px);
   filter: drop-shadow(0 5px 10px rgba(34,211,238,0.5));
 }
+
+/* about-page icons */
+.about-ico { display: inline-flex; align-items: center; justify-content: center; color: var(--blue-light); flex: 0 0 auto; line-height: 0; }
+.about-ico svg { display: block; transition: transform 0.28s var(--ease), color 0.28s var(--ease), filter 0.28s var(--ease); }
+.page-hero .kicker, .section-head .kicker { display: inline-flex; align-items: center; gap: 8px; }
+.info-chip .flag { display: inline-flex; align-items: center; justify-content: center; color: var(--blue-light); font-size: 0; }
+.info-chip:hover .about-ico svg { transform: translateY(-2px); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.45)); }
+.heading-ico { display: inline-flex; align-items: center; gap: 10px; }
+.heading-ico .about-ico { color: var(--blue-light); }
+.heading-ico:hover .about-ico svg { transform: translateY(-2px); color: var(--cyan); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.4)); }
+.card:hover .heading-ico .about-ico svg { color: var(--cyan); }
