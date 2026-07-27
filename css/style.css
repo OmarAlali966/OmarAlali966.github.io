@@ -1643,12 +1643,13 @@ GLOBAL THREAT INTELLIGENCE CENTER
 }
 
 /* about-page icons */
-.about-ico { display: inline-flex; align-items: center; justify-content: center; color: var(--blue-light); flex: 0 0 auto; line-height: 0; }
-.about-ico svg { display: block; transition: transform 0.28s var(--ease), color 0.28s var(--ease), filter 0.28s var(--ease); }
+.about-ico { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; line-height: 0; }
+.about-ico svg { display: block; stroke: var(--blue-light); color: var(--blue-light); transition: transform 0.28s var(--ease), stroke 0.28s var(--ease), color 0.28s var(--ease), filter 0.28s var(--ease); }
 .page-hero .kicker, .section-head .kicker { display: inline-flex; align-items: center; gap: 8px; }
-.info-chip .flag { display: inline-flex; align-items: center; justify-content: center; color: var(--blue-light); font-size: 0; }
-.info-chip:hover .about-ico svg { transform: translateY(-2px); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.45)); }
-.heading-ico { display: inline-flex; align-items: center; gap: 10px; }
-.heading-ico .about-ico { color: var(--blue-light); }
-.heading-ico:hover .about-ico svg { transform: translateY(-2px); color: var(--cyan); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.4)); }
-.card:hover .heading-ico .about-ico svg { color: var(--cyan); }
+.info-chip .flag { display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 0; font-size: 0; }
+.info-chip .flag .about-ico svg { stroke: var(--blue-light); color: var(--blue-light); }
+.info-chip:hover .about-ico svg { transform: translateY(-2px); stroke: var(--cyan); color: var(--cyan); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.45)); }
+h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; }
+.heading-ico .about-ico svg { stroke: var(--blue-light); color: var(--blue-light); }
+.heading-ico:hover .about-ico svg { transform: translateY(-2px); stroke: var(--cyan); color: var(--cyan); filter: drop-shadow(0 4px 8px rgba(34,211,238,0.4)); }
+.card:hover .heading-ico .about-ico svg { stroke: var(--cyan); color: var(--cyan); }
