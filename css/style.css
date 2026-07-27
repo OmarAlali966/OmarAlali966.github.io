@@ -1593,3 +1593,40 @@ GLOBAL THREAT INTELLIGENCE CENTER
   color: var(--blue-light);
   letter-spacing: 0.005em;
 }
+
+
+/* ============================================================
+   ABOUT ICONS — SVG (Lucide outline, professional SaaS look)
+   ============================================================ */
+.about-section svg {
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  transition: transform 0.35s var(--ease), color 0.35s var(--ease), stroke 0.35s var(--ease);
+}
+.about-section .kicker { display: inline-flex; align-items: center; gap: 8px; }
+.about-section .kicker-ico, .about-section .label-ico { display: inline-flex; color: var(--blue-light); }
+.about-section .kicker-ico svg { width: 16px; height: 16px; }
+.about-section .label-ico svg { width: 16px; height: 16px; }
+.focus-label, .mini-path-label { display: inline-flex; align-items: center; gap: 8px; }
+.info-ico {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; flex: 0 0 38px;
+  border-radius: 11px;
+  background: rgba(10,132,255,0.12);
+  border: 1px solid rgba(34,211,238,0.18);
+  color: var(--blue-light);
+}
+.info-ico svg { width: 20px; height: 20px; }
+.info-card:hover .info-ico { background: rgba(10,132,255,0.2); border-color: rgba(34,211,238,0.4); }
+.info-card:hover .info-ico svg { transform: scale(1.1); }
+.focus-ico {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--blue-light);
+  width: 22px; height: 22px; flex: 0 0 22px;
+}
+.focus-ico svg { width: 20px; height: 20px; }
+.focus-pill:hover .focus-ico { color: var(--cyan); }
+.focus-pill:hover .focus-ico svg { transform: translateY(-1px) scale(1.08); }
+.mini-path-h .mini-path-icon svg { width: 22px; height: 22px; color: var(--blue-light); }
+.mini-path-h .mini-path-item:hover .mini-path-icon svg { color: var(--cyan); transform: scale(1.1); }
