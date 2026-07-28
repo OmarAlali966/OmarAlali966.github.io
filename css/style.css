@@ -212,7 +212,7 @@ h1, h2, h3, h4, p { margin: 0; }
     color: var(--text-muted);
     border-color: var(--border);
 }
-.btn-ghost:hover { color: var(--text); border-color: var(--border-strong); }
+.btn-ghost:hover { color: var(--text); background: var(--surface-hover); border-color: rgba(100, 210, 255, 0.4); box-shadow: 0 8px 30px rgba(100, 210, 255, 0.15); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
 .btn[disabled] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
