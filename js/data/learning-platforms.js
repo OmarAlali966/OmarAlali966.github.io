@@ -31,8 +31,8 @@ const LEARNING_PLATFORMS = [
       logo: "THM",
       accent: "red",
       description: "Hands-on, guided cybersecurity rooms and learning paths covering Blue Team operations, red teaming, cloud defense, and AI security.",
-      profileUrl: "#",
-      isPlaceholderProfile: true,
+      profileUrl: "https://tryhackme.com/p/omaralali",
+      isPlaceholderProfile: false,
       completedPaths: [
          { title: "Pre Security", status: "completed", progress: 100, difficulty: "Easy", certImage: "assets/certificates/thm-pre-security.png", certImageAlt: "TryHackMe certificate of completion for the Pre Security Learning Path, issued to Omar Adel Alali.", summary: "An introductory path covering how computers, networks, and the web work, building the foundation to think like both an attacker and a defender.", whatLearned: ["Core computing and operating system fundamentals", "Networking basics: protocols, addressing, and traffic flow", "Introductory web application concepts", "Foundational offensive and defensive security thinking"] },
          { title: "SOC Level 1", status: "completed", progress: 100, difficulty: "Add difficulty (Beginner / Intermediate / Advanced)", summary: "Add a short description of what this path covers and the skills it builds.", whatLearned: ["Add 2-3 key takeaways from this path."] },
