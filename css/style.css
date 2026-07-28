@@ -1754,3 +1754,34 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
     max-width: none;
   }
 }
+
+
+/* ============================================================
+   CERTIFICATE IMAGES (Hands-on learning path certificates)
+   Clickable certificate thumbnail shown on learning-platform detail cards.
+   ============================================================ */
+.cert-image-wrap { margin-top: 18px; }
+.cert-image-link {
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #0b1220;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.cert-image-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.40);
+  border-color: rgba(100, 210, 255, 0.50);
+}
+.cert-image { display: block; width: 100%; height: auto; }
+.cert-image-caption {
+  display: block;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  padding: 8px;
+  color: var(--blue-light, #64d2ff);
+  background: rgba(10, 16, 26, 0.60);
+}
