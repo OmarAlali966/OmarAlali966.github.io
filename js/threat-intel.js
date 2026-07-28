@@ -34,6 +34,17 @@
     });
   }
 
+  // Render-time only: strip a LEADING run of decorative emoji/pictographs (e.g. ⚠️, 🔹, 🚨)
+  // plus following whitespace. Never touches mid-string symbols, CVE IDs, hashes, URLs,
+  // arrows, or other meaningful data. Underlying feed data is left unchanged.
+  var LEADING_EMOJI_RE = /^(?:[\u2600-\u27BF\u2B00-\u2BFF\uFE0F\u200D\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}]|\s)*(?:[\u2600-\u27BF\u2B00-\u2BFF\uFE0F\u200D\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}])(?:[\u2600-\u27BF\u2B00-\u2BFF\uFE0F\u200D\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}]|\s)*/u;
+  function stripLeadingEmoji(str) {
+    if (str == null) return str;
+    var s = String(str);
+    var stripped = s.replace(LEADING_EMOJI_RE, '');
+    return stripped.trim() === '' ? s : stripped;
+  }
+
   function relTime(iso) {
     if (!iso) return '';
     var d = new Date(iso);
@@ -71,8 +82,8 @@
   }
 
   function itemCard(item) {
-    var titleHtml = esc(item.title || 'Untitled');
-    var descHtml = item.description ? '<p class="ti-card-desc">' + esc(item.description) + '</p>' : '';
+    var titleHtml = esc(stripLeadingEmoji(item.title || 'Untitled'));
+    var descHtml = item.description ? '<p class="ti-card-desc">' + esc(stripLeadingEmoji(item.description)) + '</p>' : '';
     var metaBits = [];
     if (item.vendor) metaBits.push(esc(item.vendor));
     if (item.product) metaBits.push(esc(item.product));
