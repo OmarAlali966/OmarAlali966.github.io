@@ -1685,3 +1685,40 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
   .about-grid { grid-template-columns: 1fr; gap: 28px; align-items: start; }
   .about-grid > div:last-child { align-self: start; justify-content: flex-start; }
 }
+
+/* ===== GLOBAL CONSISTENCY POLISH ===== */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 10px;
+  line-height: 0;
+  transition: background 0.28s var(--ease), color 0.28s var(--ease);
+}
+.nav-toggle:hover { background: rgba(100, 210, 255, 0.10); }
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--blue-light);
+  color: var(--blue-light);
+  display: block;
+}
+@media (max-width: 780px) { .nav-toggle { display: inline-flex; } }
+/* Inline hero heading icon (matches About page icon rhythm) */
+.hero-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 0;
+  margin-right: 12px;
+  flex: 0 0 auto;
+}
+.hero-ico svg {
+  width: 0.9em;
+  height: 0.9em;
+  stroke: var(--blue-light);
+  color: var(--blue-light);
+}
+/* ===== END GLOBAL CONSISTENCY POLISH ===== */
