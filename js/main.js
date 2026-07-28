@@ -725,6 +725,11 @@ function initNetworkCanvas() {
          '<p class="path-desc mt-16">' + escapeHtml(path.summary || "") + '</p>' +
          '<div class="progress-row mt-16">' + progressBarHtml(path.progress) + '</div>' +
          whatLearnedHtml +
+         (path.certImage
+            ? '<div class="cert-image-wrap mt-16"><a href="' + escapeHtml(path.certImage) + '" target="_blank" rel="noopener" class="cert-image-link" aria-label="View full certificate for ' + escapeHtml(path.title) + '">' +
+                 '<img src="' + escapeHtml(path.certImage) + '" alt="' + escapeHtml(path.certImageAlt || (path.title + ' certificate')) + '" class="cert-image" loading="lazy">' +
+                 '<span class="cert-image-caption">View certificate</span></a></div>'
+            : '') +
          '</div>'
          );
    }
