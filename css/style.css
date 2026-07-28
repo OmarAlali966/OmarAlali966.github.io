@@ -1722,3 +1722,35 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
   color: var(--blue-light);
 }
 /* ===== END GLOBAL CONSISTENCY POLISH ===== */
+
+/* ===== MOBILE FIX: dock attack-map disclosure toasts below the map (<=768px) =====
+   On phones the absolute top-right toast overlay covered the map markers.
+   Below 768px we reflow the map into a fixed 2:1 top region and let the
+   toasts flow in normal document flow directly beneath it, so markers stay
+   fully visible. Desktop layout is untouched (rules are inside the media query). */
+@media (max-width: 768px) {
+  .am-map { aspect-ratio: auto; height: auto; }
+  .am-map > .am-particles,
+  .am-map > svg,
+  .am-map > .am-markers {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    height: 50vw;
+    max-height: 340px;
+  }
+  .am-map::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 50vw;
+    max-height: 340px;
+  }
+  .am-map .am-toasts {
+    position: static;
+    inset: auto;
+    margin: 14px 0 4px;
+    max-width: none;
+  }
+}
