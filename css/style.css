@@ -1472,7 +1472,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
   -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
 .about-left { display: flex; flex-direction: column; gap: 28px; }
-.about-card .photo-ring { max-width: 292px; margin: 50px auto 0; }
+.about-card .photo-ring { max-width: 292px; margin: 75px auto 0; }
 .about-card .photo-frame { max-width: 292px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 50px -18px rgba(0,0,0,0.65); }
 .about-card .profile-photo {
   object-fit: cover;
