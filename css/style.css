@@ -1439,7 +1439,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
 
 
 /* ============================================================
-   ABOUT ME — PREMIUM REFRESH (Apple/Vercel/Stripe inspired)
+   ABOUT ME â PREMIUM REFRESH (Apple/Vercel/Stripe inspired)
    ============================================================ */
 .about-section { padding-top: 96px; padding-bottom: 96px; }
 .about-section .section-head { margin-bottom: 56px; }
@@ -1472,7 +1472,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
   -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
 .about-left { display: flex; flex-direction: column; gap: 28px; }
-.about-card .photo-ring { max-width: 292px; margin: 0 auto; }
+.about-card .photo-ring { max-width: 292px; margin: 28px auto 0; }
 .about-card .photo-frame { max-width: 292px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 50px -18px rgba(0,0,0,0.65); }
 .about-card .profile-photo {
   object-fit: cover;
@@ -1596,7 +1596,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
 
 
 /* ============================================================
-   ABOUT ICONS — SVG (Lucide outline, professional SaaS look)
+   ABOUT ICONS â SVG (Lucide outline, professional SaaS look)
    ============================================================ */
 .about-section svg {
   display: block;
