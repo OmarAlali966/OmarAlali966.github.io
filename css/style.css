@@ -431,7 +431,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .cert-logo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cert-logo-brand { overflow: hidden; background: #ffffff; padding: 9px; }
 .cert-logo-brand img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.cert-logo-wordmark { width: 84px; padding: 8px; }
+.cert-logo-wordmark { padding: 3px; }
 .cert-title { font-size: 17px; font-weight: 650; line-height: 1.3; }
 .cert-issuer { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 .status-pill {
