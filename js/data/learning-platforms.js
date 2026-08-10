@@ -29,6 +29,7 @@ const LEARNING_PLATFORMS = [
       id: "tryhackme",
       name: "TryHackMe",
       logo: "THM",
+      logoImage: "assets/images/tryhackme-logo.png",
       accent: "red",
       description: "Hands-on, guided cybersecurity rooms and learning paths covering Blue Team operations, red teaming, cloud defense, and AI security.",
       profileUrl: "https://tryhackme.com/p/omaralali",

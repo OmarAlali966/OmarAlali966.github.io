@@ -427,6 +427,8 @@ h1, h2, h3, h4, p { margin: 0; }
     background: var(--gradient-blue);
     flex-shrink: 0;
 }
+.cert-logo-img { overflow: hidden; padding: 0; background: transparent; }
+.cert-logo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cert-title { font-size: 17px; font-weight: 650; line-height: 1.3; }
 .cert-issuer { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 .status-pill {

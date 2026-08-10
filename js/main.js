@@ -764,11 +764,19 @@ function initNetworkCanvas() {
       return parts.length ? parts.join(" \u00b7 ") : "New platform \u2014 paths coming soon";
    }
 
+   function platformLogoHtml(p, extraStyle) {
+      const style = extraStyle ? ' style="' + extraStyle + '"' : '';
+      if (p.logoImage) {
+         return '<div class="cert-logo cert-logo-img"' + style + '><img src="' + escapeHtml(p.logoImage) + '" alt="' + escapeHtml(p.name) + ' logo"></div>';
+      }
+      return '<div class="cert-logo"' + style + '>' + escapeHtml(p.logo) + '</div>';
+   }
+
    function learningPlatformCardHtml(p) {
       return (
          '<div class="card reveal">' +
          '<div class="cert-top">' +
-         '<div class="cert-logo">' + escapeHtml(p.logo) + '</div>' +
+         platformLogoHtml(p) +
          '<div><div class="cert-title">' + escapeHtml(p.name) + '</div></div>' +
          '</div>' +
          '<p class="mt-16" style="color:var(--text-muted);font-size:14.5px;">' + escapeHtml(p.description) + '</p>' +
@@ -800,7 +808,7 @@ function initNetworkCanvas() {
          '<div class="reveal">' +
          '<span class="kicker">Hands-on Lab</span>' +
          '<div class="cert-top" style="margin-top:14px;">' +
-         '<div class="cert-logo" style="width:64px;height:64px;font-size:15px;">' + escapeHtml(p.logo) + '</div>' +
+         platformLogoHtml(p, 'width:64px;height:64px;font-size:15px;') +
          '<h1 style="font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-1px;">' + escapeHtml(p.name) + '</h1>' +
          '</div>' +
          '<p style="margin-top:14px;color:var(--text-muted);font-size:17px;max-width:700px;">' + escapeHtml(p.description) + '</p>' +
