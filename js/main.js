@@ -767,7 +767,7 @@ function initNetworkCanvas() {
    function platformLogoHtml(p, extraStyle) {
       const style = extraStyle ? ' style="' + extraStyle + '"' : '';
       if (p.logoImage) {
-         return '<div class="cert-logo cert-logo-img"' + style + '><img src="' + escapeHtml(p.logoImage) + '" alt="' + escapeHtml(p.name) + ' logo"></div>';
+         return '<div class="cert-logo cert-logo-brand"' + style + '><img src="' + escapeHtml(p.logoImage) + '" alt="' + escapeHtml(p.name) + ' logo"></div>';
       }
       return '<div class="cert-logo"' + style + '>' + escapeHtml(p.logo) + '</div>';
    }
