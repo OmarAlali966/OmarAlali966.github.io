@@ -1665,7 +1665,7 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
 /* Balance the two columns and tighten spacing on the About page */
 .about-grid { grid-template-columns: 320px 1fr; gap: 28px; align-items: start; }
 .about-grid > div:last-child { align-self: start; }
-.about-right-stack { display: flex; flex-direction: column; gap: 28px; }
+.about-left-stack { display: flex; flex-direction: column; gap: 28px; }
 /* Photo -> chips */
 .about-grid .chip-row { margin-top: 14px; gap: 8px; }
 .about-grid .info-chip { padding: 9px 14px; font-size: 13px; }
