@@ -1475,9 +1475,12 @@ GLOBAL THREAT INTELLIGENCE CENTER
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
-.about-left { display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+.about-left { display: flex; flex-direction: column; justify-content: flex-start; gap: 28px; }
+.about-left.about-card.glass-card { padding: 36px 28px; }
 .about-card .photo-ring { max-width: 292px; margin: 0 auto; }
+.about-left .photo-ring { max-width: 100%; }
 .about-card .photo-frame { max-width: 292px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 50px -18px rgba(0,0,0,0.65); }
+.about-left .photo-frame { max-width: 100%; }
 .about-card .profile-photo {
   object-fit: cover;
   object-position: 50% 22%;
