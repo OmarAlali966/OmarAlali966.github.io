@@ -1487,6 +1487,7 @@ GLOBAL THREAT INTELLIGENCE CENTER
   transform: scale(1.12);
   transition: transform 0.6s var(--ease);
 }
+.about-left .profile-photo { object-position: 58% 34%; }
 .about-card .photo-frame:hover .profile-photo { transform: scale(1.17); }
 .about-card .photo-ring::before { box-shadow: 0 0 22px rgba(34,211,238,0.32), 0 0 52px rgba(10,132,255,0.18); opacity: 0.7; }
 .photo-glow {
