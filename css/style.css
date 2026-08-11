@@ -1663,7 +1663,7 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
 /* about-story vertical alignment */
 /* about-spacing-refine */
 /* Balance the two columns and tighten spacing on the About page */
-.about-grid { grid-template-columns: 320px 1fr; gap: 48px; align-items: start; }
+.about-grid { grid-template-columns: 320px 1fr; gap: 28px; align-items: start; }
 .about-grid > div:last-child { align-self: start; }
 /* Photo -> chips */
 .about-grid .chip-row { margin-top: 14px; gap: 8px; }
@@ -1683,7 +1683,7 @@ h3.heading-ico, h2.heading-ico { display: flex; align-items: center; gap: 10px; 
 .about-grid .story p { margin-top: 14px; line-height: 1.65; }
 .about-grid .story p:first-of-type { margin-top: 0; }
 @media (max-width: 900px) {
-  .about-grid { grid-template-columns: 340px 1fr; gap: 36px; }
+  .about-grid { grid-template-columns: 340px 1fr; gap: 24px; }
 }
 @media (max-width: 780px) {
   .about-grid { grid-template-columns: 1fr; gap: 28px; align-items: start; }
