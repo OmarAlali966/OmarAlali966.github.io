@@ -1465,9 +1465,8 @@ GLOBAL THREAT INTELLIGENCE CENTER
   letter-spacing: 0.01em;
   margin: 0;
 }
+.about-grid.glass-card { grid-template-columns: 320px 1fr; gap: 32px; align-items: start; }
 .about-card.glass-card {
-  grid-template-columns: 320px 1fr;
-  gap: 64px;
   padding: 56px;
   border-radius: 30px;
   background: linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.02));
@@ -1578,7 +1577,8 @@ GLOBAL THREAT INTELLIGENCE CENTER
 }
 .mini-path-h .mini-path-item:hover span { color: var(--text); }
 @media (max-width: 900px) {
-  .about-card.glass-card { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
+  .about-grid.glass-card { grid-template-columns: 1fr; gap: 32px; }
+  .about-card.glass-card { padding: 40px; }
   .about-left { max-width: 360px; margin: 0 auto; width: 100%; }
   .lead-summary { max-width: none; }
   .mini-path-h { grid-template-columns: repeat(3, 1fr); gap: 20px 8px; }
