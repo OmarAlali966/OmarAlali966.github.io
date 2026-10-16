@@ -9,13 +9,14 @@
   ],
   "location": "Miami, FL (originally from Saudi Arabia)",
   "summary": "Cybersecurity graduate from Florida International University (FIU), building toward a career in cloud security. Enjoys building hands-on cloud security projects on AWS and continuously sharpening practical, real-world security skills.",
-  "bio": "Omar Alali is from Saudi Arabia and is a Cybersecurity graduate from Florida International University (FIU) with a 3.97 / 4.00 GPA, plus an Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence. His journey into cybersecurity started unexpectedly: while studying Business in 2018, he wanted a gaming PC but couldn't afford a prebuilt one, so he bought the parts and taught himself to build it by watching YouTube videos and reading manuals. That project sparked a passion for technology that changed his career goals completely. At the time he did not speak English, so he spent a year learning English before moving to the United States to study cybersecurity. Today he is passionate about cybersecurity, cloud computing, artificial intelligence, networking, automation, and emerging technologies. He enjoys building hands-on projects and earning certifications, and his goal is to grow into a well-rounded technology and security professional as a Cloud Security Engineer, Security Engineer, or SOC Analyst.",
+  "bio": "Omar Alali is from Saudi Arabia and is a Cybersecurity graduate from Florida International University (FIU) graduating Summa Cum Laude with a 3.97 / 4.00 GPA, plus an Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence. His journey into cybersecurity started unexpectedly: while studying Business in 2018, he wanted a gaming PC but couldn't afford a prebuilt one, so he bought the parts and taught himself to build it by watching YouTube videos and reading manuals. That project sparked a passion for technology that changed his career goals completely. At the time he did not speak English, so he spent a year learning English before moving to the United States to study cybersecurity. Today he is passionate about cybersecurity, cloud computing, artificial intelligence, networking, automation, and emerging technologies. He enjoys building hands-on projects and earning certifications, and his goal is to grow into a well-rounded technology and security professional as a Cloud Security Engineer, Security Engineer, or SOC Analyst.",
   "education": {
     "school": "Florida International University (FIU)",
     "degree": "B.S., Cybersecurity",
     "gpa": "3.97 / 4.00",
     "additionalCertificate": "Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence",
-    "location": "Miami, FL"
+    "location": "Miami, FL",
+    "honors": "Summa Cum Laude (degree conferred August 8, 2026)"
   },
   "contact": {
     "email": "omaradelalali@gmail.com",
@@ -62,7 +63,7 @@
       "issuer": "Microsoft",
       "status": "completed",
       "issueDate": "July 2026",
-      "expirationDate": "July 2029",
+      "expirationDate": "July 2027",
       "skills": [
         "Microsoft Sentinel",
         "Microsoft Defender",
@@ -85,6 +86,44 @@
         "VPC Networking",
         "Cost Optimization",
         "High Availability"
+      ]
+    },
+    {
+      "id": "sap-c-aig",
+      "name": "SAP Certified – SAP Generative AI Developer",
+      "shortName": "SAP C_AIG",
+      "issuer": "SAP",
+      "status": "completed",
+      "issueDate": "October 2026",
+      "expirationDate": "October 2027",
+      "skills": [
+        "Generative AI",
+        "Large Language Models",
+        "Prompt Engineering",
+        "SAP AI Core"
+      ]
+    },
+    {
+      "id": "fiu-ethics-big-data-ai",
+      "name": "Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence",
+      "issuer": "Florida International University",
+      "status": "completed",
+      "issueDate": "2026",
+      "skills": [
+        "AI Ethics",
+        "Big Data",
+        "Artificial Intelligence"
+      ]
+    },
+    {
+      "id": "aws-academy-cloud-foundations",
+      "name": "AWS Academy Graduate – Cloud Foundations",
+      "issuer": "Amazon Web Services",
+      "status": "completed",
+      "issueDate": "September 2025",
+      "skills": [
+        "AWS Cloud Concepts",
+        "Core AWS Services"
       ]
     },
     {

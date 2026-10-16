@@ -58,6 +58,22 @@ const TIMELINE = [
         isPlaceholderDate: false
   },
   {
+        id: "fiu-graduation",
+        type: "cert",
+        date: "August 2026",
+        title: "B.S. Cybersecurity, Summa Cum Laude",
+        description: "Graduated from Florida International University Summa Cum Laude with a 3.97 / 4.00 GPA and an Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence.",
+        isPlaceholderDate: false
+  },
+  {
+        id: "sap-c-aig",
+        type: "cert",
+        date: "October 2026",
+        title: "SAP Certified \u2013 Generative AI Developer",
+        description: "Earned SAP Certified \u2013 SAP Generative AI Developer (C_AIG), covering building applications on large language models with SAP's generative AI tools.",
+        isPlaceholderDate: false
+  },
+  {
         id: "aws-security-project",
         type: "project",
         date: "In Progress",

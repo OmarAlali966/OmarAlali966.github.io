@@ -40,9 +40,7 @@ const CERTIFICATIONS = [
           officialUrl: "https://www.comptia.org/certifications/cybersecurity-analyst",
           isPlaceholderDetails: false,
           skills: ["Threat Detection", "Security Analytics", "Incident Response", "Vulnerability Management", "SOC Operations"],
-          whatLearned: ["Behavioral analytics to detect and respond to threats", "Vulnerability management lifecycle", "SOC-style incident response workflows"],
-          howApplied: "Add a short note on how you've used this in labs or projects.",
-          notes: "Add any personal notes about this certification."
+          whatLearned: ["Behavioral analytics to detect and respond to threats", "Vulnerability management lifecycle", "SOC-style incident response workflows"]
    },
    {
           id: "sc-200",
@@ -53,15 +51,13 @@ const CERTIFICATIONS = [
           accent: "indigo",
           status: "completed",
           issueDate: "July 2026",
-          expirationDate: "July 2029",
+          expirationDate: "July 2027",
           credentialId: "9B56CB12D1514ED3",
           verifyUrl: "https://learn.microsoft.com/en-us/users/omaralali-6964/credentials/9b56cb12d1514ed3?ref=https%3A%2F%2Fwww.linkedin.com%2F",
           officialUrl: "https://learn.microsoft.com/credentials/certifications/security-operations-analyst/",
           isPlaceholderDetails: false,
           skills: ["Microsoft Sentinel", "Microsoft Defender", "KQL", "Threat Hunting", "SOC Analysis"],
-          whatLearned: ["Configuring and using Microsoft Sentinel for detection", "Writing KQL queries to hunt for threats", "Investigating and remediating incidents with Microsoft Defender"],
-          howApplied: "Add a short note on how you've used this in labs or projects.",
-          notes: "Add any personal notes about this certification."
+          whatLearned: ["Configuring and using Microsoft Sentinel for detection", "Writing KQL queries to hunt for threats", "Investigating and remediating incidents with Microsoft Defender"]
    },
    {
           id: "aws-saa",
@@ -76,11 +72,61 @@ const CERTIFICATIONS = [
           credentialId: "36ce6ae9e58840fe8ebc956072424472",
           verifyUrl: "https://cp.certmetrics.com/amazon/en/public/verify/credential/36ce6ae9e58840fe8ebc956072424472",
           officialUrl: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["AWS Architecture", "IAM", "VPC Networking", "Cost Optimization", "High Availability"],
           whatLearned: ["Designing resilient, cost-aware architectures on AWS", "IAM and VPC networking fundamentals", "Choosing the right AWS service for a given workload"],
-          howApplied: "Directly applied in the AWS Enterprise Security Monitoring Platform project's IAM and networking design.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Directly applied in the AWS Enterprise Security Monitoring Platform project's IAM and networking design."
+   },
+   {
+          id: "sap-c-aig",
+          name: "SAP Certified \u2013 SAP Generative AI Developer",
+          shortName: "SAP C_AIG",
+          issuer: "SAP",
+          logo: "SAP",
+          accent: "blue",
+          status: "completed",
+          issueDate: "October 2026",
+          expirationDate: "October 2027",
+          credentialId: "C_AIG",
+          verifyUrl: "https://www.credly.com/badges/41b8ece1-0e7a-4a1b-8005-e92824032eb1",
+          officialUrl: "https://learning.sap.com/certifications/sap-certified-associate-sap-generative-ai-developer",
+          isPlaceholderDetails: false,
+          skills: ["Generative AI", "Large Language Models", "Prompt Engineering", "SAP AI Core", "AI Application Development"],
+          whatLearned: ["Building applications on large language models", "Prompt engineering and grounding model output", "Using SAP's generative AI tooling to develop AI features"],
+   },
+   {
+          id: "fiu-ethics-big-data-ai",
+          name: "Undergraduate Certificate in Ethics, Big Data, and Artificial Intelligence",
+          shortName: "FIU Certificate: Ethics, Big Data & AI",
+          issuer: "Florida International University",
+          logo: "FIU",
+          accent: "indigo",
+          status: "completed",
+          issueDate: "2026",
+          expirationDate: "No expiration",
+          credentialId: "Academic certificate",
+          verifyUrl: "#",
+          officialUrl: "https://www.fiu.edu/",
+          isPlaceholderDetails: false,
+          skills: ["AI Ethics", "Big Data", "Artificial Intelligence", "Data Privacy"],
+          whatLearned: ["Ethical questions raised by big data and AI systems", "How data collection and AI decisions affect privacy and fairness", "Responsible use of AI in technology and security"],
+   },
+   {
+          id: "aws-academy-cloud-foundations",
+          name: "AWS Academy Graduate \u2013 Cloud Foundations",
+          shortName: "AWS Academy Cloud Foundations",
+          issuer: "Amazon Web Services",
+          logo: "AWS",
+          accent: "orange",
+          status: "completed",
+          issueDate: "September 2025",
+          expirationDate: "No expiration",
+          credentialId: "Training badge",
+          verifyUrl: "#",
+          officialUrl: "https://aws.amazon.com/training/awsacademy/",
+          isPlaceholderDetails: false,
+          skills: ["AWS Cloud Concepts", "Core AWS Services", "Cloud Security Basics", "Cloud Pricing"],
+          whatLearned: ["Core AWS cloud concepts and services", "AWS shared responsibility model and security basics", "Cloud architecture and pricing fundamentals"],
    },
    {
           id: "aws-security-specialty",
@@ -95,11 +141,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://aws.amazon.com/certification/certified-security-specialty/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["GuardDuty", "Security Hub", "KMS", "IAM Policy Design", "Incident Response on AWS"],
           whatLearned: ["Deep-diving into AWS-native detection and response services", "Advanced KMS and encryption strategies", "Incident response patterns specific to AWS"],
-          howApplied: "Studying alongside hands-on work in the AWS Enterprise Security Monitoring Platform project.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Studying alongside hands-on work in the AWS Enterprise Security Monitoring Platform project."
    },
    {
           id: "ccsk",
@@ -114,11 +159,9 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://cloudsecurityalliance.org/education/ccsk/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Cloud Governance", "Cloud Risk Management", "Shared Responsibility Model", "Cloud Architecture Security"],
-          whatLearned: ["To be updated once studying begins."],
-          howApplied: "Add a short note on how you've used this in labs or projects.",
-          notes: "Add any personal notes about this certification."
+          whatLearned: ["To be updated once studying begins."]
    },
    {
           id: "gcih",
@@ -133,11 +176,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.giac.org/certifications/certified-incident-handler-gcih/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Incident Handling", "Attack Detection", "Threat Containment", "Log Analysis", "Malware Basics"],
           whatLearned: ["How to detect, respond to, and handle security incidents", "Common attacker tools, techniques, and procedures", "Structured incident response processes"],
-          howApplied: "Studying incident handling workflows to apply in SOC-style detection and response labs.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Studying incident handling workflows to apply in SOC-style detection and response labs."
    },
    {
           id: "gsoc",
@@ -152,11 +194,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.giac.org/certifications/security-operations-certified-gsoc/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["SOC Operations", "Detection Engineering", "Continuous Monitoring", "Alert Triage", "SIEM"],
           whatLearned: ["How modern SOCs operate end to end", "Building and tuning detections", "Continuous security monitoring practices"],
-          howApplied: "Applying SOC operations concepts to hands-on monitoring labs and detection tuning.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Applying SOC operations concepts to hands-on monitoring labs and detection tuning."
    },
    {
           id: "gcti",
@@ -171,11 +212,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.giac.org/certifications/cyber-threat-intelligence-gcti/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Threat Intelligence", "Adversary Tracking", "Intelligence Analysis", "MITRE ATT&CK", "Reporting"],
           whatLearned: ["How to collect and analyze cyber threat intelligence", "Tracking adversaries and their infrastructure", "Intelligence-driven defense strategies"],
-          howApplied: "Using threat intelligence analysis to enrich detection and response work in labs.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Using threat intelligence analysis to enrich detection and response work in labs."
    },
    {
           id: "gdat",
@@ -190,11 +230,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.giac.org/certifications/defending-advanced-threats-gdat/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Advanced Threat Defense", "Kill Chain Analysis", "Purple Teaming", "Detection Design", "Adversary Emulation"],
           whatLearned: ["Defending against advanced, persistent adversaries", "Mapping defenses across the attack kill chain", "Purple-team detection and response"],
-          howApplied: "Applying advanced defense techniques against emulated adversary scenarios in labs.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Applying advanced defense techniques against emulated adversary scenarios in labs."
    },
    {
           id: "ecthpv2",
@@ -209,11 +248,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://security.ine.com/certifications/ecthp-certification/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Threat Hunting", "Endpoint Analysis", "Network Forensics", "Anomaly Detection", "Hypothesis-Driven Hunting"],
           whatLearned: ["Proactive threat hunting across endpoints and networks", "Identifying anomalies and attacker footholds", "Hypothesis-driven hunting methodology"],
-          howApplied: "Practicing proactive threat hunting techniques in endpoint and network labs.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Practicing proactive threat hunting techniques in endpoint and network labs."
    },
    {
           id: "ecdfp",
@@ -228,11 +266,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://security.ine.com/certifications/ecdfp-certification/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Digital Forensics", "Evidence Acquisition", "Disk & Memory Analysis", "Investigation", "Reporting"],
           whatLearned: ["Digital forensics fundamentals and methodology", "Acquiring and analyzing forensic evidence", "Investigating and documenting incidents"],
-          howApplied: "Applying forensic acquisition and analysis skills in investigation labs.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Applying forensic acquisition and analysis skills in investigation labs."
    },
    {
           id: "ceh",
@@ -247,11 +284,10 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.eccouncil.org/train-certify/certified-ethical-hacker-ceh/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Ethical Hacking", "Enumeration", "Vulnerability Assessment", "Penetration Testing", "Reconnaissance"],
           whatLearned: ["Offensive security fundamentals and methodology", "Enumeration and vulnerability assessment", "Ethical penetration testing techniques"],
-          howApplied: "Using offensive security techniques to better understand and defend against attacks.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Using offensive security techniques to better understand and defend against attacks."
    },
    {
           id: "osda",
@@ -266,10 +302,9 @@ const CERTIFICATIONS = [
           credentialId: "Not yet issued",
           verifyUrl: "#",
           officialUrl: "https://www.offsec.com/courses/soc-200/",
-          isPlaceholderDetails: true,
+          isPlaceholderDetails: false,
           skills: ["Detection Engineering", "Blue Team Analysis", "Log Analysis", "Attack Detection", "SIEM"],
           whatLearned: ["Hands-on detection engineering against real attacks", "Analyzing attacker behavior from a defender view", "Blue-team investigation workflows"],
-          howApplied: "Building hands-on detection and blue-team analysis skills against real-world attack scenarios.",
-          notes: "Add any personal notes about this certification."
+          howApplied: "Building hands-on detection and blue-team analysis skills against real-world attack scenarios."
    }
    ];

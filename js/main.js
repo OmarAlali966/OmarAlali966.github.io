@@ -519,14 +519,14 @@ function initNetworkCanvas() {
                        '<ul style="margin-top:10px;display:grid;gap:8px;">' +
                          (cert.whatLearned || []).map((w) => '<li style="padding-left:18px;position:relative;font-size:14px;color:var(--text-muted);"><span style="position:absolute;left:0;color:var(--blue-light);">&#10148;</span>' + escapeHtml(w) + '</li>').join("") +
                        '</ul>' +
-                       '<h4 class="mt-16" style="font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">How I Applied It</h4>' +
-                       '<p class="mt-8" style="font-size:14px;color:var(--text-muted);">' + escapeHtml(cert.howApplied || "") + '</p>' +
-                       '<h4 class="mt-16" style="font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Notes</h4>' +
-                       '<p class="mt-8" style="font-size:14px;color:var(--text-muted);">' + escapeHtml(cert.notes || "") + '</p>' +
+                       (cert.howApplied ? '<h4 class="mt-16" style="font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">How I Applied It</h4>' +
+                       '<p class="mt-8" style="font-size:14px;color:var(--text-muted);">' + escapeHtml(cert.howApplied) + '</p>' : "") +
+                       (cert.notes ? '<h4 class="mt-16" style="font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Notes</h4>' +
+                       '<p class="mt-8" style="font-size:14px;color:var(--text-muted);">' + escapeHtml(cert.notes) + '</p>' : "") +
                      '</div>' +
                      meta +
                      '<div class="btn-row mt-8">' +
-                       '<a class="btn btn-secondary" href="' + escapeHtml(cert.verifyUrl) + '" target="_blank" rel="noopener">Verify Credential</a>' +
+                       (cert.verifyUrl && cert.verifyUrl !== "#" ? '<a class="btn btn-secondary" href="' + escapeHtml(cert.verifyUrl) + '" target="_blank" rel="noopener">Verify Credential</a>' : "") +
                        '<a class="btn btn-ghost" href="' + escapeHtml(cert.officialUrl) + '" target="_blank" rel="noopener">Official Cert Page</a>' +
                      '</div>' +
                    '</div>'

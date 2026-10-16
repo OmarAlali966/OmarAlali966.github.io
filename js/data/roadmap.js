@@ -13,6 +13,7 @@ const ROADMAP = [
   { id: "cysa-plus", title: "CompTIA CySA+", category: "cert", status: "done", completionDate: "July 2026" },
   { id: "sc-200", title: "Microsoft SC-200", category: "cert", status: "done", completionDate: "July 2026" },
   { id: "aws-saa", title: "AWS Solutions Architect \u2013 Associate", category: "cert", status: "done", completionDate: "July 2026" },
+  { id: "sap-c-aig", title: "SAP Certified \u2013 Generative AI Developer", category: "cert", status: "done", completionDate: "October 2026" },
   { id: "aws-monitoring-platform", title: "AWS Enterprise Security Monitoring Platform", category: "project", status: "in-progress", completionDate: null },
   { id: "aws-security-specialty", title: "AWS Security Specialty", category: "cert", status: "in-progress", completionDate: null },
   { id: "ccsk", title: "CCSK", category: "cert", status: "in-progress", completionDate: null },
