@@ -256,7 +256,31 @@
 <img src="assets/certificates/fiu-diploma.png" alt="Florida International University diploma: Bachelor of Science in Cybersecurity, Summa Cum Laude, conferred on Omar Adel Alali, August 8, 2026" loading="lazy" style="display:block;width:100%;height:auto;">
 </a>
 <p class="honor-desc">Bachelor of Science in Cybersecurity from the Knight Foundation School of Computing and Information Sciences, College of Engineering and Computing, graduating Summa Cum Laude, the university's highest Latin honor, with a 3.97 / 4.00 GPA.</p>
-<a href="https://onestop.fiu.edu/registration/academic-records/digital-diplomas/validation/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary honor-btn">Verify Degree on FIU &rarr;</a>
+<div class="cedid-box" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 14px;padding:10px 14px;border-radius:10px;border:1px solid rgba(100,210,255,0.25);background:rgba(100,210,255,0.06);font-size:14px;">
+<span style="color:var(--text-muted);">Degree code (CeDiD):</span>
+<code id="fiuCedid" style="font-size:15px;font-weight:700;letter-spacing:1px;color:var(--blue-light);user-select:all;">2686-SOKF-OII4</code>
+<button type="button" class="btn btn-ghost" id="fiuCedidCopy" style="padding:4px 12px;font-size:13px;">Copy</button>
+</div>
+<p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Click Verify: the code is copied for you. Paste it into FIU's page and press Validate.</p>
+<a href="https://onestop.fiu.edu/registration/academic-records/digital-diplomas/validation/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary honor-btn" id="fiuVerifyBtn">Verify Degree on FIU &rarr;</a>
+<script>
+(function () {
+  var code = "2686-SOKF-OII4";
+  var copyBtn = document.getElementById("fiuCedidCopy");
+  function copyCode() {
+    function done() { copyBtn.textContent = "Copied ✓"; setTimeout(function () { copyBtn.textContent = "Copy"; }, 2500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done, function () {});
+    } else {
+      var t = document.createElement("textarea"); t.value = code; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(t);
+    }
+  }
+  copyBtn.addEventListener("click", copyCode);
+  document.getElementById("fiuVerifyBtn").addEventListener("click", copyCode);
+})();
+</script>
 </div>
 <div class="cert-card honor-card">
 <div class="cert-top">
